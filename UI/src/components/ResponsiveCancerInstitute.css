@@ -1,0 +1,306 @@
+/* General Sidebar Styling */
+.sidebar {
+    height: 100%;
+    width: 500px;
+    position: fixed;
+    top: 0;
+    background-color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    z-index: 1000;
+}
+
+/* Right Sidebar */
+.sidebar.right {
+    right: -500px;
+    top: 0;
+    height: 100%;
+    width: 335px;
+    margin-top: 0;
+    background-color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 19px;
+
+}
+
+/* Left Sidebar */
+.sidebar.left {
+    left: -500px;
+    top: 0;
+    height: 100%;
+    width: 335px;
+    margin-top: 0;
+    background-color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    z-index: 1000;
+    display: flex;
+    border-radius: 14px;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Change the color of all icons in the left sidebar to #00308F and text color to black */
+  .sidebar.left .sidebar-btn img {
+    filter: brightness(0) saturate(100%) invert(15%) sepia(93%) saturate(3300%) hue-rotate(180deg) brightness(92%) contrast(120%);
+  }
+  
+  .sidebar.left .sidebar-btn {
+    color: black; /* Change text color to black */
+  }
+  
+  .sidebar.left .sidebar-btn:hover {
+    background-color: #dcdcdc; /* Hover effect for sidebar buttons */
+  }
+  
+  
+
+/* Sidebar Header Styling */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 10px;
+    width: 100%;
+    margin-top: 30px;
+
+}
+
+.container4-fluid {
+  margin-top: -35px;
+}
+/* Close (Back) Button Styling */
+.close-btn {
+    display: flex;
+    align-items: center;
+    font-size: 16px; /* Same font size as the "Anna" and "Home" buttons */
+    color: #003366; /* Same color */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 20px;
+}
+
+/* Anna / Menu Styling */
+.sidebar-header h6 {
+    font-size: 16px;
+    color: #003366; /* Same color as other text */
+    margin: 0;
+    margin-left: auto; /* Push Menu to the right */
+    padding-right: 30px; /* Ensure alignment with buttons */
+    padding-left: 10px; /* Added padding to move it slightly to the right */
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: Arial, sans-serif; /* Same font as buttons */
+}
+
+/* Sidebar Content Styling */
+.sidebar-content {
+    padding: 20px;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Sidebar Button Styling */
+.sidebar-btn {
+    padding: 10px;
+    margin: 10px 20px;
+    font-size: 15px; /* Unified font size */
+    background-color: #f0f0f0;
+    border-radius: 100px;
+    width: calc(100% - 40px); /* Keeps consistent spacing */
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-family: Arial, sans-serif; /* Same font as the "Back" button */
+    color: #003366; /* Same color */
+}
+
+.sidebar-btn i {
+    margin-right: 10px;
+}
+
+/* Sidebar Logout Button */
+.sidebar-logout {
+    padding: 10px;
+    margin: 5px 20px;
+    font-size: 15px;
+    background-color: #d774ad;
+    color: white;
+    border-radius: 20px; /* Adjusting border-radius */
+    width: 40%; /* Reduced width for the logout button to half its current size */
+    text-align: center; /* Centering the text */
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    position: absolute; /* Position at the bottom */
+    bottom: 80px; /* 20px from the bottom of the sidebar */
+    right: 20px; /* Move the button to the right end */
+    gap: 10px; /* Add space between icon and text */
+  }
+  
+  /* Hover effect for logout button */
+  .sidebar-logout:hover {
+    background-color: #d774ad;
+  }
+  
+/* Active Sidebar State */
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar.right.active {
+    right: 0;
+    left: auto;
+}
+
+.sidebar.left.active {
+    left: 0;
+}
+
+/* Flexbox container for boxes */
+.container4-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Ensure there are always 2 boxes per row */
+.container4-box .box {
+    flex: 0 0 calc(50% - 50px);
+}
+
+/* Icon styling inside boxes */
+.box i {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+/* Info Icon Positioning */
+.info-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 16px;
+    color: #003366;
+}
+
+/* Styling for the Boxes */
+.box {
+    position: relative;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 180px;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 18px;
+    color: #003366;
+    font-family: Arial, sans-serif;
+    margin: 0 25px 50px;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 768px) {
+
+    .container4-box .box {
+        border-radius: 18px;
+    }
+
+    .container4-fluid {
+  margin-top: -5px;
+}
+
+  .footer-container {
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding: 10px;
+    z-index: 999;
+  }
+
+  .footer-container-fixed {
+    bottom: 0;
+    width: 100%;
+    /* background-color: white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px; */
+    padding: 10px;
+    z-index: 999;
+    position: fixed;
+  }
+
+  .footer-container-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff; /* Set background explicitly */
+    padding: 10px 0;
+    z-index: 1000; /* Ensure it stays on top if needed */
+  }
+
+  .footer-logo {
+    background-color: #fff; /* Prevent blending */
+    padding: 2px; /* Optional for spacing */
+    border-radius: 4px; /* Optional for rounded corners */
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .footer-logo {
+    width: 100px;
+    height: auto;
+  }
+
+  .footer-text {
+    font-size: 15px;
+    margin: 0;
+  }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 300px;
+    }
+
+    .box {
+        flex: 0 0 calc(100% - 50px);
+    }
+
+    .sidebar-btn,
+    .sidebar-logout {
+        width: 265px;
+    }
+
+    .sidebar.right {
+        width: 350px;
+    }
+    
+}

@@ -1,0 +1,189 @@
+/* Updated ProfilePage Specific Styles */
+
+.profile-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+    margin-top: -55px;
+    background-color: white;
+
+}
+
+.profile-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container20 {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 1rem;
+}
+.profile-account-icon-wrapper {
+  position: relative;
+}
+
+.profile-account-icon {
+  font-size: 100px;
+  color: #4b0082;
+}
+
+.profile-edit-icon {
+  position: absolute;
+  top: 70px;
+  left: 70px;
+  font-size: 20px;
+  color: #de3163;
+  cursor: pointer;
+}
+
+.profile-form-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+.profile-form-container label {
+  font-weight: bold;
+  margin: 10px 0 5px;
+}
+
+.profile-form-container input {
+  padding: 10px;
+  border-radius: 600px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  width: 100%;
+  font-size: 16px;
+}
+
+.profile-form-container input:focus {
+  outline: none;
+  border: 2px solid #de3163;
+  background-color: #fff;
+}
+
+.password-field-wrapper {
+  position: relative;
+}
+
+.password-field-wrapper i {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.update-profile-button {
+  background-color: #de3163;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 600px;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.update-profile-button:hover {
+  background-color: #bf2652;
+  transition: background-color 0.3s ease;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  margin-top: -10px;
+}
+
+.profile-powered-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.profile-powered-by {
+  font-size: 14px;
+  color: #4b0082;
+}
+
+.profile-curable-logo {
+  width: 150px;
+  margin-top: 10px;
+}
+
+.password-field-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-field-wrapper input {
+  width: 100%;
+  padding: 10px 40px 10px 10px; /* right padding added for icon space */
+  border-radius: 60px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  font-size: 16px;
+}
+
+.password-field-wrapper .eye-icon {
+  position: absolute;
+  top: 37%;
+  right: 16px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+}
+
+.gender-button-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.gender-button {
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  font-weight: bold;
+  cursor: pointer;
+  flex: 1;
+}
+
+.gender-button.active {
+  background-color:#d774ad;
+  color: white;
+  border: 1px solid #d774ad;
+}
+
+/* Add responsive media query if needed */
+@media (max-width: 768px) {
+  .profile-form-container {
+    max-width: 90%;
+  }
+  
+  .profile-account-icon {
+    font-size: 80px;
+  }
+  
+  .profile-edit-icon {
+    font-size: 16px;
+  }
+}
+/* Desktop Styles */
+@media (min-width: 1024px) {
+    /* Use default desktop styles for large screens */
+    .container20 {
+        padding: 2rem;
+    }
+  }

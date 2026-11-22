@@ -1,0 +1,41 @@
+-- Apply the following revisitId-only changes to VSclinicalReport.
+-- 1. In each *_all CTE (breast, cervical, oral, prostate), add:
+--    ct.revisitId
+--    immediately after ct.lastModifiedBy in the SELECT list.
+--
+-- 2. In each *_grouped CTE:
+--    add revisitId to the SELECT list (after testName), and
+--    add revisitId to the GROUP BY list.
+--
+-- 3. In each *_pivot CTE:
+--    add revisitId to the SELECT list, and
+--    add revisitId to the GROUP BY list.
+--
+-- 4. After prostate_pivot, add this CTE:
+-- revisit_master AS (
+--     SELECT candidateId, revisitId FROM breast_pivot
+--     UNION
+--     SELECT candidateId, revisitId FROM cervical_pivot
+--     UNION
+--     SELECT candidateId, revisitId FROM oral_pivot
+--     UNION
+--     SELECT candidateId, revisitId FROM prostate_pivot
+-- )
+--
+-- 5. In the final SELECT list, add:
+--    rm.revisitId AS rid,
+--
+-- 6. Replace the final pivot joins with the null-safe revisit joins:
+-- LEFT JOIN revisit_master rm ON rm.candidateId = ca.id
+-- LEFT JOIN breast_pivot bp
+--     ON bp.candidateId = rm.candidateId
+--    AND bp.revisitId <=> rm.revisitId
+-- LEFT JOIN cervical_pivot cp
+--     ON cp.candidateId = rm.candidateId
+--    AND cp.revisitId <=> rm.revisitId
+-- LEFT JOIN oral_pivot op
+--     ON op.candidateId = rm.candidateId
+--    AND op.revisitId <=> rm.revisitId
+-- LEFT JOIN prostate_pivot pp
+--     ON pp.candidateId = rm.candidateId
+--    AND pp.revisitId <=> rm.revisitId

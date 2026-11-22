@@ -1,0 +1,63 @@
+@media (max-width: 768px) {
+    .container2 {
+        display: flex;
+            flex-direction: column;
+            min-height: 1vh;
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #fff;
+            padding: 16px;
+    }
+    
+    .container3{
+        display: flex;
+            flex-direction: column;
+            min-height: 1vh;
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #fff;
+            padding: 16px;
+    }
+
+  }
+  
+  /* mandatory star */
+.req-star { color: #d40000; margin-left: 2px; }
+
+/* reuse your existing .error-message if you have one; else: */
+.error-message { display:block; margin-top:4px; font-size:12px; color:#d40000; }
+
+/* optional distinct Save look to match wireframe */
+.Save-button { padding: 10px 18px; border-radius: 6px; border: none; background: #000; color: #fff; }
+.Finish-button[disabled] { opacity: .5; cursor: not-allowed; }
+
+/* Frozen / read-only referral fields */
+.frozen-field { position: relative; }
+.frozen-field .frozen-badge {
+  display: inline-block;
+  font-size: 11px;
+  background: #eef2f7;
+  border: 1px solid #cfd8e3;
+  color: #52606d;
+  border-radius: 10px;
+  padding: 2px 8px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.frozen-field select,
+.frozen-field input,
+.frozen-field .p-inputtext,
+.frozen-field .p-inputtext:disabled,
+.frozen-field .p-select,
+.frozen-field .p-select:disabled,
+.frozen-field .p-calendar,
+.frozen-field .p-calendar:disabled {
+  background-color: #f5f7fa !important;
+  color: #4a5568 !important;
+  cursor: not-allowed !important;
+  border-color: #cbd5e0 !important;
+}
+.frozen-field .gender-btn {
+  opacity: 0.6;
+  cursor: not-allowed !important;
+}

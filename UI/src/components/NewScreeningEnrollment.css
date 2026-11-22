@@ -1,0 +1,247 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 700px;
+  height:400px;
+}
+.errors_message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+
+.modal-buttons {
+  display: flex;
+  justify-content: center; /* Center-align buttons */
+  gap: 20px; /* Reduce the space between buttons */
+  margin-top: 25px;
+}
+
+.modal-buttons button {
+  width: 150px; /* Increase button width */
+  padding: 10px; /* Adjust padding if necessary */
+}
+
+.open-modal-btn {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #d774ad;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.open-modal-btn:hover {
+  background-color: #d774ad;
+}
+.checkbox-group {
+  margin-top: 5px;
+}
+
+.checkbox-item {
+  margin-bottom: 10px;
+}
+
+.checkbox-item input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.checkbox-item label {
+  font-size: 14px;
+}
+
+.custom-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.custom-modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 700px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.custom-modal-outreach {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 700px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.custom-modal-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.custom-modal-title-duplicate {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.custom-form-group {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;  /* Moves the select box lower */
+}
+
+.custom-select {
+  width: 80%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: #f9f9f9;
+}
+
+.custom-modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin-top: auto;
+  padding-bottom: 20px;
+}
+
+.custom-modal-button {
+  width: 150px;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.custom-modal-button-duplicate {
+  width: 150px;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 2px solid #d774ad;
+    background-color: white;
+    color: #d774ad;
+    border-radius: 10px;
+}
+
+
+.custom-close-button {
+  background: white;
+  color: #d774ad;
+  border: 2px solid #d774ad;
+}
+
+.custom-save-button {
+  background: #d774ad;
+  color: white;
+  
+}
+
+.custom-Yes-button {
+  color: #d774ad;
+  background: white;
+}
+.container21{
+  padding: 2rem;
+}
+@media only screen and (max-width: 768px) {
+  .container21 {
+    padding: 16px;
+    margin: 10px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .custom-modal-content {
+    width: 90%;       
+    height: auto;    
+    padding: 20px;
+  }
+
+  .custom-modal-content h1 {
+    font-size: 16px;
+    margin-top: 10px;
+    line-height: 1.4;
+  }
+
+   .custom-modal-outreach {
+    width: 90%;       
+    height: auto;    
+    padding: 20px;
+  }
+
+  .custom-modal-outreach h1 {
+    font-size: 16px;
+    margin-top: 10px;
+    line-height: 1.4;
+  }
+
+
+   .Next-button_home {
+    padding: 10px 20px; 
+    font-size: 14px;     
+    width: 50%;         
+    max-width: 300px;   
+  }
+  .modal-buttons button {
+    width: 100px;
+    font-size: 14px;
+    padding: 8px;
+  }
+  .custom-modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+.custom-form-group {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;  /* Moves the select box lower */
+}
+}
