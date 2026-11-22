@@ -1,0 +1,154 @@
+.pv-screen {
+  background: #FFFFFF;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: Roboto, Arial, sans-serif;
+  color: #152B48;
+  padding: 0 24px;
+}
+
+.pv-content {
+  padding: 24px 0;
+  flex: 1;
+}
+
+.pv-patient {
+  margin-bottom: 8px;
+}
+
+.pv-name {
+  font-weight: 700;
+  font-size: 18px;
+  color: #152B48;
+}
+
+.pv-details {
+  font-size: 14px;
+  color: #657D9D;
+  margin-top: 4px;
+  font-weight: 550;
+}
+
+.pv-id {
+  font-size: 14px;
+  color: #657D9D;
+  margin-top: 2px;
+  font-weight: 550;
+}
+
+.pv-journey-heading {
+  font-weight: 700;
+  color: #104477;
+  font-size: 24px;
+  margin-top: 22px;
+  margin-bottom: 16px;
+}
+
+.pv-timeline {
+  position: relative;
+  padding-left: 28px;
+}
+
+.pv-line {
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #E2E7EF;
+}
+
+.pv-event {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.pv-circle {
+  position: absolute;
+  left: -28px;
+  top: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2px solid #2879D5;
+  box-sizing: border-box;
+}
+
+.pv-event-content {
+  margin-left: 8px;
+}
+
+.pv-date-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pv-date {
+  font-size: 18px;
+  color: #657D9D;
+}
+
+.pv-badge {
+  font-size: 15px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.pv-completed {
+  background: #E1F3EB;
+  color: #087A55;
+}
+
+.pv-pending {
+  background: #FFF0D9;
+  color: #A85A00;
+}
+
+.pv-event-title {
+  font-weight: 700;
+  font-size: 20px;
+  color: #104477;
+  margin-top: 4px;
+}
+
+.pv-completed-text {
+  color: #087A55;
+}
+
+.pv-referral {
+  font-size: 16px;
+  color: #657D9D;
+  margin-top: 2px;
+}
+
+.pv-buttons {
+  display: flex;
+  gap: 15px;
+  padding: 0 24px 23px;
+}
+
+.pv-btn {
+  flex: 1;
+  height: 52px;
+  border-radius: 13px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.pv-edit {
+  background: #FFFFFF;
+  color: #D76CAF;
+  border: 2px solid #D76CAF;
+}
+
+.pv-start {
+  background: #D76CAF;
+  color: #FFFFFF;
+  font-weight: 700;
+}

@@ -26,6 +26,7 @@ interface Candidate {
   campId?: number;
   hospitalId: number;
   enrolled?: boolean; // optional, default to false if not provided
+  createdDate?: string | null;
 }
 
 
@@ -43,6 +44,7 @@ interface CandidateAPIResponse {
   campId?: number | null;
   hospitalId: number;
   enrolled?: boolean; // optional, default to false if not provided
+    createdDate?: string | null;
 
 }
 
@@ -126,6 +128,7 @@ const handleSearch = async (value?: string) => {
   campId: c.campId ?? undefined,
   hospitalId: c.hospitalId,
   enrolled: c.enrolled ?? false, // default to false if not provided
+  createdDate: c.createdDate,
 }));
 
 setCandidates(candidatesData);
@@ -147,6 +150,18 @@ setCandidates(candidatesData);
 
   const handleCloseNoCandidateDialog = () => {
     setOpenNoCandidateDialog(false);
+  };
+
+  const handleViewClick = (candidateId: number, candidateObj?: Candidate | any) => {
+    localStorage.setItem('patientId', candidateId.toString());
+    if (candidateObj && candidateObj.campId !== undefined && candidateObj.campId !== null) {
+      localStorage.setItem('campId', String(candidateObj.campId));
+    }
+    navigate('/PatientView', { state: { candidateId: candidateId, candidate: candidateObj,
+      searchNameFromBox,
+      searchflow,
+      enrolled
+    } });
   };
 
   const handleEditClick = (candidateId: number, candidateObj?: Candidate | any) => {
@@ -235,7 +250,13 @@ localStorage.removeItem("weightval");
                 <p><strong>Spouse Name:</strong> <span>{candidate.spouseName}</span></p>
                 <p><strong>Father Name:</strong> <span>{candidate.fatherName}</span></p>
                 <p><strong>Mobile No:</strong> <span>{candidate.mobileNo}</span></p>
-                <div className="edit-button-container">
+                <div className="edit-button-container" style={{ display: 'flex', gap: '8px' }}>
+                  <button  disabled={!allowAllThree }
+                    className={`edit-button ${!allowAllThree ? 'disabled-button' : ''}`}
+                    onClick={() => handleViewClick(candidate.id,candidate)}
+                  >
+                    View
+                  </button>
                   <button  disabled={!allowAllThree }
                     className={`edit-button ${!allowAllThree ? 'disabled-button' : ''}`}
                     onClick={() => handleEditClick(candidate.id,candidate)}

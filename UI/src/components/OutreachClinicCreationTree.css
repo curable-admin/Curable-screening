@@ -1,0 +1,99 @@
+/* ============================================================
+   Tree styles for "Screenings offered at this clinic"
+   Dedicated stylesheet — does not impact existing designs
+   ============================================================ */
+
+.oc-tree {
+    border: 1px solid #ECEEF2;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 14px;
+    color: #1A2440;
+    margin-top: 8px;
+}
+
+.oc-tr {
+    display: flex;
+    align-items: center;
+    padding: 0.5px 6px;
+    border-bottom: 0.5px solid #F0F1F4;
+    font-size: 14px;
+    color: #1A2440;
+}
+
+.oc-tr:last-child {
+    border-bottom: 0;
+}
+
+/* Level 1: Specialty (diseaseType) */
+.oc-tr1 {
+    font-weight: 600;
+    background: #FAFBFC;
+}
+
+/* Level 2: Individual screening (subDiseaseType) */
+.oc-tr2 {
+    padding-left: 44px;
+}
+
+/* Toggle button (▸ / ▾) */
+.oc-tr-tg {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #D7DBE5;
+    background: #fff;
+    color: #5A6680;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    flex-shrink: 0;
+    cursor: pointer;
+    border-radius: 3px;
+    line-height: 1;
+    margin-right: 8px;
+}
+
+.oc-tr-tg:hover {
+    border-color: #0B3B6F;
+    color: #0B3B6F;
+}
+
+/* Spacer for level 2 rows (aligns with toggle column) */
+.oc-tr-sp {
+    width: 20px;
+    flex-shrink: 0;
+}
+
+/* Checkbox + label row */
+.oc-tr-l {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    cursor: pointer;
+}
+
+.oc-tr-l input.oc-tree-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: #D873AE;
+    margin: 0 6px 0 0;
+    flex-shrink: 0;
+}
+
+.oc-tr-l span.oc-tree-label {
+    font-size: 14px;
+    color: #1A2440;
+    line-height: 1.4;
+    margin-left: 4px;
+}
+
+.oc-tr1 .oc-tree-label {
+    font-weight: 600;
+}
+
+.oc-tr2 .oc-tree-label {
+    font-weight: 500;
+}

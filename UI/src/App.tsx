@@ -41,6 +41,7 @@ import SuccessMessageEdit from './components/SuccessMessageEdit';
 import DiseaseSpecificDetailsScreening from './components/DiseaseSpecificDetailsScreening';
 import DiseaseSpecificDetailsModifyPrefill from './components/DiseaseSpecificDetailsModifyPrefill';
 import PatientEdit from './components/PatientEdit';
+import PatientView from './components/PatientView';
 import refreshToken from './components/refreshToken';
 import ScrollToTop from './ScrollToTop';
 import Reports from "./components/Reports";
@@ -109,6 +110,7 @@ const App: React.FC = () => {
                 <Route path="/SuccessMessageModifyFInal" element={<SuccessMessageModifyFInal />} />
                 <Route path="/DynamicScreen" element={<DynamicScreen />} />
                 <Route path="/PatientEdit" element={<PatientEdit />} />
+                <Route path="/PatientView" element={<PatientView />} />
                 <Route path="/reports" element={<Reports />} />
                  <Route path="/userManagement" element={<UserManagement />} />
                 <Route path="/create-new-user" element={<CreateNewUser />} />

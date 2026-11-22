@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
+import './OutreachClinicCreationTree.css';
 import axios from 'axios';
 import Header from './Header';
 import DatePicker from 'react-datepicker';
@@ -41,6 +42,16 @@ interface PanchayatData {
     name: string;
 }
 
+interface SubDiseaseType {
+    id: number;
+    description: string;
+}
+
+interface DiseaseType {
+    diseaseType: string;
+    subDiseaseTypes: SubDiseaseType[];
+}
+
 const OutreachClinicCreation: React.FC = () => {
     const navigate = useNavigate();
 
@@ -68,7 +79,35 @@ const OutreachClinicCreation: React.FC = () => {
     const [clinicNameError, setClinicNameError] = useState('');
     const [showDuplicateModal, setShowDuplicateModal] = useState(false);
     const [pendingNextState, setPendingNextState] = useState<any>(null);
+    const [diseaseTypes, setDiseaseTypes] = useState<DiseaseType[]>([]);
+    const [selectedScreenings, setSelectedScreenings] = useState<number[]>([]);
+    const [loadingDiseaseTypes, setLoadingDiseaseTypes] = useState(false);
+    const [expandedSpecialties, setExpandedSpecialties] = useState<Record<string, boolean>>({});
     const token = localStorage.getItem('token');
+
+    useEffect(() => {
+        const fetchDiseaseTypes = async () => {
+            if (!token) return;
+            setLoadingDiseaseTypes(true);
+            try {
+                const response = await axios.get<DiseaseType[]>(
+                    `${config.appURL}/curable/diseasetypes/hospital/2`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                setDiseaseTypes(response.data);
+            } catch (error) {
+                console.error('Error fetching disease types:', error);
+                alert('Failed to fetch screenings. Please try again.');
+            }
+            setLoadingDiseaseTypes(false);
+        };
+        fetchDiseaseTypes();
+    }, [token]);
+
     useEffect(() => {
         const fetchStates = async () => {
 
@@ -199,6 +238,36 @@ const OutreachClinicCreation: React.FC = () => {
 
 
     // Handle form submission
+    const isScreeningSelected = (screeningId: number) => selectedScreenings.includes(screeningId);
+
+    const isSpecialtyFullySelected = (subDiseaseTypes: SubDiseaseType[]) =>
+        subDiseaseTypes.length > 0 && subDiseaseTypes.every(s => selectedScreenings.includes(s.id));
+
+    const isSpecialtyPartiallySelected = (subDiseaseTypes: SubDiseaseType[]) =>
+        subDiseaseTypes.some(s => selectedScreenings.includes(s.id)) && !isSpecialtyFullySelected(subDiseaseTypes);
+
+    const toggleSpecialty = (diseaseType: DiseaseType) => {
+        const ids = diseaseType.subDiseaseTypes.map(s => s.id);
+        if (isSpecialtyFullySelected(diseaseType.subDiseaseTypes)) {
+            setSelectedScreenings(prev => prev.filter(id => !ids.includes(id)));
+        } else {
+            setSelectedScreenings(prev => {
+                const combined = [...prev, ...ids];
+                return combined.filter((v, i, a) => a.indexOf(v) === i);
+            });
+        }
+    };
+
+    const toggleScreening = (screeningId: number) => {
+        setSelectedScreenings(prev =>
+            prev.includes(screeningId) ? prev.filter(id => id !== screeningId) : [...prev, screeningId]
+        );
+    };
+
+    const toggleSpecialtyExpand = (specialtyName: string) => {
+        setExpandedSpecialties(prev => ({ ...prev, [specialtyName]: !prev[specialtyName] }));
+    };
+
     const handleClinicNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setClinicName(value);
@@ -215,6 +284,10 @@ const OutreachClinicCreation: React.FC = () => {
 
         if (!clinicName || !pincode || !state || !district || !taluk || !panchayat || !startDate || !clinicCode) {
             alert('Please fill out all required fields, including Outreach Clinic ID.');
+            return;
+        }
+        if (selectedScreenings.length === 0) {
+            alert('Please select at least one screening offered at this clinic.');
             return;
         }
         if (clinicName.trim().length < 3) {
@@ -253,7 +326,7 @@ const OutreachClinicCreation: React.FC = () => {
             console.log(resp.data, "duplicate check response");
             if (resp.data === true || resp.data === 'true') {
                 // Show modal, store navigation state for later
-                setPendingNextState({ startDate, endDate, panchayatId, pincode, clinicName, clinicCode });
+                setPendingNextState({ startDate, endDate, panchayatId, pincode, clinicName, clinicCode, selectedScreenings });
                 setShowDuplicateModal(true);
                 return;
             }
@@ -263,7 +336,7 @@ const OutreachClinicCreation: React.FC = () => {
         }
         // Not duplicate, proceed
         navigate('/resource-planning', {
-            state: { startDate, endDate, panchayatId, pincode, clinicName, clinicCode }
+            state: { startDate, endDate, panchayatId, pincode, clinicName, clinicCode, selectedScreenings }
         });
     };
 
@@ -473,6 +546,70 @@ const OutreachClinicCreation: React.FC = () => {
                         />
                     </div>
                 </label>
+                <label>
+                    <span style={{ color: 'black' }}>Screenings offered at this clinic *:</span>
+                    <span style={{ color: 'darkred', fontWeight: 'bold' }}>*</span>
+                    <div className="meta" style={{ marginBottom: '6px', fontSize: '13px', color: '#5A6680' }}>
+                        {selectedScreenings.length} chosen{selectedScreenings.length ? ': ' + diseaseTypes
+                            .flatMap(dt => dt.subDiseaseTypes.filter(s => selectedScreenings.includes(s.id)))
+                            .map(s => s.description)
+                            .join(', ') : ''}
+                    </div>
+                    <div className="oc-tree">
+                        {diseaseTypes.map((dt, di) => {
+                            const fullySelected = isSpecialtyFullySelected(dt.subDiseaseTypes);
+                            const partiallySelected = isSpecialtyPartiallySelected(dt.subDiseaseTypes);
+                            const expanded = expandedSpecialties[dt.diseaseType] === true;
+                            return (
+                                <>
+                                    <div key={`dt-${di}`} className="oc-tr oc-tr1">
+                                        <button
+                                            type="button"
+                                            className="oc-tr-tg"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                toggleSpecialtyExpand(dt.diseaseType);
+                                            }}
+                                            aria-expanded={expanded}
+                                            aria-label={expanded ? `Close ${dt.diseaseType}` : `Open ${dt.diseaseType}`}
+                                        >
+                                            {expanded ? '▾' : '▸'}
+                                        </button>
+                                        <label className="oc-tr-l" onClick={(e) => e.stopPropagation()}>
+                                            <input
+                                                type="checkbox"
+                                                className="oc-tree-checkbox"
+                                                checked={fullySelected}
+                                                onChange={() => toggleSpecialty(dt)}
+                                                data-ind={partiallySelected ? 1 : 0}
+                                            />
+                                            <span className="oc-tree-label">{dt.diseaseType}</span>
+                                        </label>
+                                    </div>
+                                    {expanded && dt.subDiseaseTypes.map((s, si) => (
+                                        <div key={`sd-${di}-${si}`} className="oc-tr oc-tr2">
+                                            <span className="oc-tr-sp"></span>
+                                            <label className="oc-tr-l" onClick={(e) => e.stopPropagation()}>
+                                                <input
+                                                    type="checkbox"
+                                                    className="oc-tree-checkbox"
+                                                    checked={isScreeningSelected(s.id)}
+                                                    onChange={() => toggleScreening(s.id)}
+                                                />
+                                                <span className="oc-tree-label">{s.description}</span>
+                                            </label>
+                                        </div>
+                                    ))}
+                                </>
+                            );
+                        })}
+                    </div>
+                </label>
+                {selectedScreenings.length === 0 && diseaseTypes.length > 0 && (
+                    <p className="errors_message" style={{ color: '#C62828', fontSize: '13px', marginTop: '4px' }}>
+                        Please select at least one screening.
+                    </p>
+                )}
                 <center><button type="submit" className="submit-button1">
                     Next
                 </button></center>
