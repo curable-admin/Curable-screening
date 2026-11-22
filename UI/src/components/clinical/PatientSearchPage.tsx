@@ -19,6 +19,7 @@ interface Patient {
   age: number;
   gender: string;
   mobileNo: string;
+  createdDate: string,
 lastVistCompletedDate: number | string | null;
   eligibleDiseases: {
     candidateId: number;
@@ -111,6 +112,7 @@ const handleSearch = async (value?: string) => {
           age: patient.age,
           gender: patient.gender,
           mobileNo: patient.mobileNo,
+          createdDate: patient.createdDate,
           eligibleDiseases: patient.eligibleDiseases,
           lastVistCompletedDate: patient.lastVistCompletedDate,
         }));
@@ -343,13 +345,40 @@ navigate("/DiseaseSpecificDetailsScreening", {
             <label className="select-label">Select Patient</label>
             <div>
               {pagedPatients.map((patient) => (
-                <div
-                  key={patient.id}
-                  className={`patient-item ${
-                    selectedPatient?.id === patient.id ? "selected" : ""
-                  }`}
-                  onClick={() => handlePatientClick(patient)}
-                >
+              <div
+                key={patient.id}
+                className={`patient-item ${
+                  selectedPatient?.id === patient.id ? "selected" : ""
+                }`}
+                onClick={() => handlePatientClick(patient)}
+                onDoubleClick={() => {
+                  handlePatientClick(patient);
+                  navigate('/PatientView', {
+                    state: {
+                      candidate: patient,
+                      candidateId: patient.id,
+                      searchNameFromBox: searchNameFromBox,
+                      searchflow,
+                      enrolled,
+                    },
+                  });
+                }}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handlePatientClick(patient);
+                    navigate('/PatientView', {
+                      state: {
+                        candidate: patient,
+                        candidateId: patient.id,
+                        searchNameFromBox: searchNameFromBox,
+                        searchflow,
+                        enrolled,
+                      },
+                    });
+                  }
+                }}
+              >
                   <div className="patient-box">
                     <div>
                       <strong>Name:</strong> {patient.name}

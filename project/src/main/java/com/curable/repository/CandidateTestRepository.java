@@ -23,7 +23,7 @@ public interface CandidateTestRepository
 
 	List<CandidateTest> findByDiseaseTestMaster_IdAndIsRecordDeletedFalse(Long diseaseTestMasterId);
 
-	@Query("select  new com.curable.service.dto.custom.DiseaseEligibilityDTO(a.candidate.id,b.description,b.name,b.id,a.id) from CandidateTest a left join a.diseaseTestMaster b  "
+	@Query("select  new com.curable.service.dto.custom.DiseaseEligibilityDTO(a.candidate.id,concat(b.description,' . ',c.name),b.name,b.id,a.id) from CandidateTest a left join a.diseaseTestMaster b left join b.diseaseMaster c "
 			+ " where a.candidate.id in :ids and b.name=:name and a.completed=0 ")
 	List<DiseaseEligibilityDTO> getEligibleTestScreeningOrClinic(List<Long> ids, String name);
 

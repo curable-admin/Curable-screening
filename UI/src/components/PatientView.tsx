@@ -42,7 +42,7 @@ const PatientView: React.FC = () => {
   const gender = candidate?.gender || '';
   const age = candidate?.age || '';
   const mobileNo = candidate?.mobileNo || '';
-  const registrationId = candidate?.registrationId || '';
+  const registrationId = candidate?.registrationId || candidate.registraionId || '';
   const createdDate = candidate?.createdDate || (history.length ? history[0]?.createdDate : '');
 
   return (
