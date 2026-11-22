@@ -15,8 +15,8 @@ import org.hibernate.envers.Audited;
 
 @Audited
 @Entity
-@Table(name = "campdiseases")
-public class CampDiseases extends AbstractAuditingEntity {
+@Table(name = "campdisease")
+public class CampDisease extends AbstractAuditingEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -26,16 +26,16 @@ public class CampDiseases extends AbstractAuditingEntity {
 	private Camp camp;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "subDiseaseMasterId")
-	private SubDiseaseMaster subDiseaseMaster;
+	@JoinColumn(name = "diseaseTestMasterId")
+	private DiseaseTestMaster diseaseTestMaster;
 
-	public CampDiseases() {
+	public CampDisease() {
 	}
 
-	public CampDiseases(Long id, Camp camp, SubDiseaseMaster subDiseaseMaster) {
+	public CampDisease(Long id, Camp camp, DiseaseTestMaster diseaseTestMaster) {
 		this.id = id;
 		this.camp = camp;
-		this.subDiseaseMaster = subDiseaseMaster;
+		this.diseaseTestMaster = diseaseTestMaster;
 	}
 
 	public Long getId() {
@@ -54,19 +54,19 @@ public class CampDiseases extends AbstractAuditingEntity {
 		this.camp = camp;
 	}
 
-	public SubDiseaseMaster getSubDiseaseMaster() {
-		return subDiseaseMaster;
+	public DiseaseTestMaster getDiseaseTestMaster() {
+		return diseaseTestMaster;
 	}
 
-	public void setSubDiseaseMaster(SubDiseaseMaster subDiseaseMaster) {
-		this.subDiseaseMaster = subDiseaseMaster;
+	public void setDiseaseTestMaster(DiseaseTestMaster diseaseTestMaster) {
+		this.diseaseTestMaster = diseaseTestMaster;
 	}
 
 	public String toString() {
-		return "CampDiseases [" +
+		return "CampDisease [" +
 		"id=" + id +
 		"camp=" + camp +
-		"subDiseaseMaster=" + subDiseaseMaster +
+		"diseaseTestMaster=" + diseaseTestMaster +
 		"]";
 	}
 }

@@ -175,7 +175,7 @@ public class CandidateService {
 	}
 
 	private void assignScreeningTests(Candidate candidate, Gender gender) {
-		List<Long> testIds = diseaseTestMasterRepository.getDiseaseTestMasterIdByGender(gender, List.of("SCREENING"),
+		List<Long> testIds = diseaseTestMasterRepository.getDiseaseTestMasterIdByGender(gender, Collections.singletonList("SCREENING"),
 				candidate.getHospital().getId());
 
 		if (testIds != null && !testIds.isEmpty()) {
@@ -320,7 +320,7 @@ public class CandidateService {
 					result = candidateRepository.getCandidateForOtherRole(searchCustomDTO.getUserId(), search,
 							searchCustomDTO.getHospitalId());
 				}
-				List<Long> ids = result.stream().map(a -> a.getId()).toList();
+				List<Long> ids = result.stream().map(a -> a.getId()).collect(Collectors.toList());
 				/*
 				 * Map<Long, Integer> completed =
 				 * candidateTestRepository.isScreeningOrClinicalCompletedV1(ids, "CLINICAL")
