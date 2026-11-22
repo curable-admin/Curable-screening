@@ -46,6 +46,14 @@ public class CommonUtil {
 		return formatter.format(date);
 	}
 
+	public static String getDateYYYYMMDD(Instant date) {
+		if (date == null)
+			return null;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.systemDefault());
+
+		return formatter.format(date);
+	}
+
 	public static String filter(SearchCustomDTO searchCustomDTO) {
 		String filter = null;
 		if (Constant.PROGRAM_COORDINATOR == searchCustomDTO.getRoleId()) {
@@ -92,12 +100,6 @@ public class CommonUtil {
 
 	public static boolean objectToBoolean(List<Object> obj) {
 		return (obj == null || obj.isEmpty()) ? null : (obj.get(0).toString().trim() == "Yes" ? true : false);
-	}
-
-	public static void main(String[] args) {
-		String c = "30-40";
-		int age = 30;
-		System.out.println(matchAge(c, age));
 	}
 
 	public static boolean matchAge(String condition, int age) {

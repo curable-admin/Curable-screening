@@ -23,4 +23,6 @@ public interface CandidateCustomDTO {
 
 	public String getLastVistCompletedDate();
 
+	public String getCreatedDate();
+
 }

@@ -465,6 +465,7 @@ public class CandidateService {
 		dto.setRegistraionId(customDTO.getRegistrationId());
 		dto.setRevisitStatus(customDTO.getRevistStatusId());
 		dto.setLastVistCompletedDate(customDTO.getLastVistCompletedDate()); //
+		dto.setCreatedDate(customDTO.getCreatedDate());
 		return dto;
 	}
 
