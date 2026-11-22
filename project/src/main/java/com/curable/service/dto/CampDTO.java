@@ -1,12 +1,13 @@
 package com.curable.service.dto;
 
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.List;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.curable.domain.enums.Gender;
 import com.curable.domain.enums.MaritalStatus;
-
-import java.io.Serializable;
-import java.time.Instant;
 
 public class CampDTO implements Serializable {
 
@@ -29,6 +30,16 @@ public class CampDTO implements Serializable {
 	private int noSocialworkers;
 	private int noProgramcordinators;
 	private int noCampcordinators;
+
+	public List<Long> dieaseList;
+
+	public void setDieaseList(List<Long> dieaseList) {
+		this.dieaseList = dieaseList;
+	}
+
+	public List<Long> getDieaseList() {
+		return dieaseList;
+	}
 
 	public Long getId() {
 		return id;
@@ -93,7 +104,7 @@ public class CampDTO implements Serializable {
 	public void setEndDate(Instant endDate) {
 		this.endDate = endDate;
 	}
-	
+
 	public Gender getGender() {
 		return gender;
 	}
@@ -101,7 +112,7 @@ public class CampDTO implements Serializable {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-	
+
 	public MaritalStatus getMaritalStatus() {
 		return maritalstatus;
 	}
@@ -113,42 +124,43 @@ public class CampDTO implements Serializable {
 	public int getNoCampcordinators() {
 		return noCampcordinators;
 	}
-	
+
 	public void setNoCampcordinators(int noCampcordinators) {
-		this.noCampcordinators = noCampcordinators; 
+		this.noCampcordinators = noCampcordinators;
 	}
-	
+
 	public int getNoProgramcordinators() {
 		return noProgramcordinators;
 	}
-	
+
 	public void setNoProgramcordinators(int noProgramcordinators) {
-		this.noProgramcordinators = noProgramcordinators; 
+		this.noProgramcordinators = noProgramcordinators;
 	}
-	
+
 	public int getNoSocialworkers() {
 		return noSocialworkers;
 	}
-	
+
 	public void setNoSocialworkers(int noSocialworkers) {
-		this.noSocialworkers = noSocialworkers; 
+		this.noSocialworkers = noSocialworkers;
 	}
-	
+
 	public int getNoNurses() {
 		return noNurses;
 	}
-	
+
 	public void setNoNurses(int noNurses) {
-		this.noNurses = noNurses; 
+		this.noNurses = noNurses;
 	}
-	
+
 	public int getNoDoctors() {
 		return noDoctors;
 	}
-	
+
 	public void setNoDoctors(int noDoctors) {
-		this.noDoctors = noDoctors; 
+		this.noDoctors = noDoctors;
 	}
+
 	public String getCampIdPrefix() {
 		return campIdPrefix;
 	}
@@ -159,15 +171,15 @@ public class CampDTO implements Serializable {
 
 	public String toString() {
 		return "CampDTO [" +
-		"id=" + id +
-		"name=" + name +
-		"hospitalId=" + hospitalId +
-		"panchayatMasterId=" + panchayatMasterId +
-		"address=" + address +
-		"pincode=" + pincode +
-		"startDate=" + startDate +
-		"endDate=" + endDate +
-		"campIdPrefix=" + campIdPrefix +
-		"]";
+				"id=" + id +
+				"name=" + name +
+				"hospitalId=" + hospitalId +
+				"panchayatMasterId=" + panchayatMasterId +
+				"address=" + address +
+				"pincode=" + pincode +
+				"startDate=" + startDate +
+				"endDate=" + endDate +
+				"campIdPrefix=" + campIdPrefix +
+				"]";
 	}
 }

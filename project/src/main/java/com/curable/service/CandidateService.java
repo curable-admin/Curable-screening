@@ -19,15 +19,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.curable.config.SecurityUtils;
+import com.curable.domain.CampDisease;
 import com.curable.domain.Candidate;
 import com.curable.domain.CandidateRevisit;
 import com.curable.domain.CandidateTest;
+import com.curable.domain.DiseaseTestMaster;
 import com.curable.domain.RegIdSequenceGenerator;
 import com.curable.domain.enums.Gender;
 import com.curable.repository.CampRepository;
 import com.curable.repository.CandidateRepository;
 import com.curable.repository.CandidateRevisitRepository;
 import com.curable.repository.CandidateTestRepository;
+import com.curable.repository.CampDiseasesRepository;
 import com.curable.repository.DiseaseTestMasterRepository;
 import com.curable.repository.RegIdSequenceGeneratorRepository;
 import com.curable.service.dto.CandidateCustomDTO;
@@ -64,6 +67,9 @@ public class CandidateService {
 
 	@Autowired
 	CampRepository campRepository;
+
+	@Autowired
+	CampDiseasesRepository campDiseasesRepository;
 
 	@Autowired
 	CampMapper campMapper;
@@ -175,7 +181,8 @@ public class CandidateService {
 	}
 
 	private void assignScreeningTests(Candidate candidate, Gender gender) {
-		List<Long> testIds = diseaseTestMasterRepository.getDiseaseTestMasterIdByGender(gender, Collections.singletonList("SCREENING"),
+		List<Long> testIds = diseaseTestMasterRepository.getDiseaseTestMasterIdByGender(gender,
+				Collections.singletonList("SCREENING"),
 				candidate.getHospital().getId());
 
 		if (testIds != null && !testIds.isEmpty()) {
@@ -207,7 +214,7 @@ public class CandidateService {
 		dto.setRegistraionId(campPrefix + streetId + generateRegSequenceBasedOnCamp(dto.getCampId()));
 		dto.setGender(normalizeGender(dto.getGender()));
 	}
-
+    // Real method for patient reg
 	@org.springframework.transaction.annotation.Transactional(rollbackFor = Exception.class)
 	public CandidateDTO save(CandidateDTO candidateDTO) {
 		CandidateDTO result;
@@ -240,7 +247,7 @@ public class CandidateService {
 				if (result.getGender() != null) {
 					if (candidateDTO.getScreenId() == 1) {
 						candidate.setIsRecordDeleted(false);
-						buildAndSaveCandidateTests(candidate.getId(), candidateDTO, null);
+						buildAndSaveCandidateTestsByCamp(candidate.getId(), candidateDTO, null);
 					}
 
 				}
@@ -262,7 +269,7 @@ public class CandidateService {
 
 					if (alreadyEntrolled == 0
 							|| (candidateDTO.getRevisitStatus() != null && candidateDTO.getRevisitStatus() == 1)) {
-						buildAndSaveCandidateTests(candidateDTO.getId(), candidateDTO, null);
+						buildAndSaveCandidateTestsByCamp(candidateDTO.getId(), candidateDTO, null);
 
 					}
 					candidateRepository.markAsActive(candidateDTO.getId(), candidateDTO.getName(),
@@ -488,16 +495,16 @@ public class CandidateService {
 
 	public List<String> getHabitTypes(String habit) {
 		switch (habit) {
-		case "Tobacco":
-			return Arrays.asList("Hans", "Gutka", "Chewing Tobacco", "Betel Quid with Areca Nuts", "Pan Masala");
-		case "Smoking":
-			return Arrays.asList("Cigarette", "Bidi", "Hookah", "E-Cigarette");
-		case "Alcohol":
-			return Arrays.asList("Brandy", "Whisky", "Rum", "Beer", "Arrack");
-		case "Snuff":
-			return Collections.emptyList();
-		default:
-			return Collections.emptyList();
+			case "Tobacco":
+				return Arrays.asList("Hans", "Gutka", "Chewing Tobacco", "Betel Quid with Areca Nuts", "Pan Masala");
+			case "Smoking":
+				return Arrays.asList("Cigarette", "Bidi", "Hookah", "E-Cigarette");
+			case "Alcohol":
+				return Arrays.asList("Brandy", "Whisky", "Rum", "Beer", "Arrack");
+			case "Snuff":
+				return Collections.emptyList();
+			default:
+				return Collections.emptyList();
 		}
 	}
 
@@ -545,9 +552,38 @@ public class CandidateService {
 			 * 
 			 * }
 			 */
-		if (!candidateTests.isEmpty())
+		if (!candidateTests.isEmpty()) {
 			candidateTestRepository.saveAll(candidateTests);
+		}
+	}
 
+	@Transactional(rollbackFor = Exception.class)
+	public void buildAndSaveCandidateTestsByCamp(Long candidateId, CandidateDTO candidateDTO, Long revisitId) {
+		List<CandidateTest> candidateTests = new ArrayList<>();
+
+		Gender gender = candidateDTO.getGender() == Gender.OTHER ? Gender.FEMALE : candidateDTO.getGender();
+
+		if (gender != null) {
+			List<CampDisease> campDiseases = campDiseasesRepository
+					.findByCamp_IdAndIsRecordDeletedFalse(candidateDTO.getCampId());
+			if (campDiseases != null && !campDiseases.isEmpty()) {
+				if (candidateDTO.getRevisitStatus() != null && candidateDTO.getRevisitStatus() == 1) {
+					revisitId = prepareRevisit(candidateId);
+				}
+				for (CampDisease campDisease : campDiseases) {
+					DiseaseTestMaster test = campDisease.getDiseaseTestMaster();
+					if (test != null && (test.getDefalutTest() || (!test.getDefalutTest()
+							&& CommonUtil.matchAge(test.getCondition(), candidateDTO.getAge())))) {
+						candidateTests.add(new CandidateTest(null, candidateMapper.fromId(candidateId),
+								test,
+								(revisitId == null ? null : candidateRevisitMapper.fromId(revisitId))));
+					}
+				}
+			}
+		}
+		if (!candidateTests.isEmpty()) {
+			candidateTestRepository.saveAll(candidateTests);
+		}
 	}
 
 	@Transactional(rollbackFor = Exception.class)

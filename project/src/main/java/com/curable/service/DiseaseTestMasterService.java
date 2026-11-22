@@ -2,6 +2,7 @@ package com.curable.service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,8 @@ import com.curable.domain.DiseaseTestMaster;
 import com.curable.domain.enums.Gender;
 import com.curable.repository.DiseaseTestMasterRepository;
 import com.curable.service.dto.DiseaseTestMasterDTO;
+import com.curable.service.dto.custom.DiseaseTestMasterProjectionDTO;
+import com.curable.service.dto.custom.DiseaseTypeWithSubTypesDTO;
 import com.curable.service.mapper.DiseaseTestMasterMapper;
 
 @Service
@@ -70,6 +73,28 @@ public class DiseaseTestMasterService {
 
 	public DiseaseTestMasterDTO getMetricsById(Long id) {
 		return diseaseTestMasterMapper.toDto(diseaseTestMasterRepository.findByIdAndIsRecordDeletedFalse(id));
+	}
+
+	public List<DiseaseTypeWithSubTypesDTO> getDiseaseTypesWithSubTypesByHospitalId(Long hospitalId) {
+		List<DiseaseTestMasterProjectionDTO> projections = diseaseTestMasterRepository.findProjectionByHospitalId(hospitalId);
+
+		Map<Long, List<DiseaseTestMasterProjectionDTO>> groupedByDiseaseMaster = projections.stream()
+				.collect(Collectors.groupingBy(DiseaseTestMasterProjectionDTO::getDiseaseMasterId));
+
+		return groupedByDiseaseMaster.values().stream()
+				.map(subTypes -> {
+					String diseaseTypeName = subTypes.get(0).getDiseaseMasterName();
+
+					List<DiseaseTypeWithSubTypesDTO.SubDiseaseTypeDTO> subDiseaseTypes = subTypes.stream()
+							.map(projection -> new DiseaseTypeWithSubTypesDTO.SubDiseaseTypeDTO(
+									projection.getDiseaseTestMasterId(),
+									projection.getDiseaseTestMasterName()
+							))
+							.collect(Collectors.toList());
+
+					return new DiseaseTypeWithSubTypesDTO(diseaseTypeName, subDiseaseTypes);
+				})
+				.collect(Collectors.toList());
 	}
 
 }

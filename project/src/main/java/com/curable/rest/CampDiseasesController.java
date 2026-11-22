@@ -40,7 +40,7 @@ public class CampDiseasesController {
 	@GetMapping("/campdiseases/subdiseasemaster/{id}")
 	public List<CampDiseasesDTO> getCampDiseasesSubDiseaseMaster(@PathVariable Long id) {
 		//log.debug("REST request to get CampDiseasess : {}", id);
-		return service.findBySubDiseaseMaster_IdAndIsRecordDeletedFalse(id);
+		return service.findByDiseaseTestMaster_IdAndIsRecordDeletedFalse(id);
 	}
 	
 }

@@ -12,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.curable.config.SecurityUtils;
 import com.curable.domain.Camp;
+import com.curable.domain.CampDisease;
 import com.curable.domain.CampStaff;
 import com.curable.domain.RegIdSequenceGenerator;
+import com.curable.repository.CampDiseasesRepository;
 import com.curable.repository.CampRepository;
 import com.curable.repository.CampStaffRepository;
 import com.curable.repository.EmployeeRepository;
@@ -24,6 +26,7 @@ import com.curable.service.dto.CampStaffDTO;
 import com.curable.service.dto.SearchCustomDTO;
 import com.curable.service.mapper.CampMapper;
 import com.curable.service.mapper.CampStaffMapper;
+import com.curable.service.mapper.DiseaseTestMasterMapper;
 import com.curable.service.mapper.EmployeeMapper;
 import com.curable.service.mapper.HospitalMapper;
 import com.curable.util.CommonUtil;
@@ -38,6 +41,9 @@ public class CampService {
 
 	@Autowired
 	private CampStaffRepository campStaffRepository;
+
+	@Autowired
+	private CampDiseasesRepository campDiseasesRepository;
 
 	// @Autowired
 	private final CampMapper campMapper;
@@ -56,6 +62,9 @@ public class CampService {
 
 	@Autowired
 	HospitalMapper hospitalMapper;
+
+	@Autowired
+	DiseaseTestMasterMapper diseaseTestMasterMapper;
 
 	public CampService(CampMapper campMapper, CampStaffMapper campStaffMapper) {
 		this.campMapper = campMapper;
@@ -117,6 +126,15 @@ public class CampService {
 		try {
 			if (campDTO.getId() == null) {
 				result = save(campDTO);
+				List<CampDisease> campDiseases = new ArrayList<CampDisease>();
+				if (campDTO.getDieaseList() != null) {
+					for (Long diseaseId : campDTO.getDieaseList()) {
+						campDiseases.add(new CampDisease(null, result, diseaseTestMasterMapper.fromId(diseaseId)));
+					}
+				}
+				// set diseaseTestMaster via fromId not available; keep placeholder
+				if (!campDiseases.isEmpty())
+					campDiseasesRepository.saveAll(campDiseases);
 				List<CampStaff> campStaffs = new ArrayList<CampStaff>();
 				Long createdUserId = employeeRepository.getUserIdByLogginUser(SecurityUtils.getCurrentUserLogin(),
 						Constant.CAMP_COORDINATOR);
