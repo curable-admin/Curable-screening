@@ -593,7 +593,7 @@ public class CandidateService {
 			Long revisitId = prepareRevisit(candidateDTO.getId());
 			// log.info("Creating revisit for candidateId: {}", candidateDTO.getId());
 
-			buildAndSaveCandidateTests(candidateDTO.getId(), candidateDTO, revisitId);
+			buildAndSaveCandidateTestsByCamp(candidateDTO.getId(), candidateDTO, revisitId);
 
 			return 1;
 
