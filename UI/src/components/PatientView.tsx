@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../components/PatientView.css';
+import './PatientView.css';
 import Header1 from './Header1';
 import config from '../config';
+import Loader from './common/Loader';
 
 const PatientView: React.FC = () => {
   const navigate = useNavigate();
@@ -41,56 +42,50 @@ const PatientView: React.FC = () => {
   const name = candidate?.name || '';
   const gender = candidate?.gender || '';
   const age = candidate?.age || '';
-  const mobileNo = candidate?.mobileNo || '';
   const registrationId = candidate?.registrationId || candidate.registraionId || '';
   const createdDate = candidate?.createdDate || (history.length ? history[0]?.createdDate : '');
 
   return (
-    <div className="pv-screen">
+    <div className="container21">
       <Header1 />
-      <main className="pv-content">
-        <div className="pv-patient">
-          <div className="pv-name">{name}</div>
-          <div className="pv-details">{age} · {gender} · {mobileNo}</div>
-          <div className="pv-id">{registrationId}</div>
+      {loading && <Loader isLoading={loading} />}
+      <div className="participant-container">
+        <p className="participant-info-text"><strong>Participant: </strong> {name} {age}/{gender}</p>
+        <p className="participant-info-text"><strong>ID:</strong> {registrationId}</p>
+      </div>
+      <h1 style={{ color: 'darkblue' }}>Patient journey</h1>
+      <div className="pv-timeline">
+        <div className="pv-line" />
+        <div className="pv-event">
+          <div className="pv-circle" />
+          <div className="pv-event-content">
+            <div className="pv-date-row">
+              <span className="pv-date" style={{ fontSize: '18px', color: '#657D9D' }}>{createdDate}</span>
+            </div>
+            <div className="pv-event-title" style={{ fontSize: '20px', color: '#104477', fontWeight: '700' }}>Registered</div>
+          </div>
         </div>
-
-        <div className="pv-journey-heading">Patient journey</div>
-
-        <div className="pv-timeline">
-          <div className="pv-line" />
-          <div className="pv-event">
+        {history.map((h, i) => (
+          <div className="pv-event" key={i}>
             <div className="pv-circle" />
             <div className="pv-event-content">
               <div className="pv-date-row">
-                <span className="pv-date">{createdDate}</span>
+                <span className="pv-date" style={{ fontSize: '18px', color: '#657D9D' }}>{h.createdDate || h.date}</span>
+                {h.status && (
+                  <span className={`pv-badge ${String(h.status).toLowerCase() === 'completed' ? 'pv-completed' : 'pv-pending'}`} style={{ fontSize: '15px', fontWeight: '600', color: String(h.status).toLowerCase() === 'completed' ? '#087A55' : '#A85A00' }}>
+                    {h.status}
+                  </span>
+                )}
               </div>
-              <div className="pv-event-title">Registered</div>
+              <div className="pv-event-title" style={{ fontSize: '20px', color: '#104477', fontWeight: '700' }}>{h.title || h.screeningName || h.name}</div>
+              {h.referral && <div className="pv-referral" style={{ fontSize: '16px', color: '#657D9D' }}>Referral: {h.referral}</div>}
             </div>
           </div>
-          {history.map((h, i) => (
-            <div className="pv-event" key={i}>
-              <div className="pv-circle" />
-              <div className="pv-event-content">
-                <div className="pv-date-row">
-                  <span className="pv-date">{h.createdDate || h.date}</span>
-                  {h.status && (
-                    <span className={`pv-badge ${String(h.status).toLowerCase() === 'completed' ? 'pv-completed' : 'pv-pending'}`}>
-                      {h.status}
-                    </span>
-                  )}
-                </div>
-                <div className="pv-event-title">{h.title || h.screeningName || h.name}</div>
-                {h.referral && <div className="pv-referral">Referral: {h.referral}</div>}
-              </div>
-            </div>
-          ))}
-        </div>
-      </main>
-
+        ))}
+      </div>
       <div className="pv-buttons">
-        <button className="pv-btn pv-edit" onClick={() => navigate('/PatientEdit', { state: { searchName: searchNameFromBox, searchflow, enrolled } })}>Back</button>
-        <button className="pv-btn pv-start">Start screening</button>
+        <button className="pv-btn pv-edit" style={{ fontSize: '16px', fontWeight: '600' }} onClick={() => navigate('/PatientEdit', { state: { searchName: searchNameFromBox, searchflow, enrolled } })}>Back</button>
+        <button className="pv-btn pv-start" style={{ fontSize: '16px', fontWeight: '700' }}>Start screening</button>
       </div>
     </div>
   );
