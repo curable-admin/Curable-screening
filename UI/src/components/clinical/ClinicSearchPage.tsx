@@ -7,6 +7,7 @@ import config from '../../config';
 import { useSelector } from 'react-redux';
 import { selectPrivilegeFlags } from '../../store/userSlice';
 import Loader from "../common/Loader";
+import PatientHistorySheet from "../PatientHistorySheet";
 import { useNavigate, useLocation } from "react-router-dom";
 
 
@@ -37,6 +38,8 @@ const ClinicSearchPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupPatient, setPopupPatient] = useState<Patient | null>(null);
   const [stageList, setStageList] = useState<string[]>([]);
   const [selectedStage, setSelectedStage] = useState<string | null>(null);
   const [searchAttempted, setSearchAttempted] = useState(false);
@@ -207,6 +210,14 @@ const formatDate = (dateValue: string | number | null) => {
   });
 };
 
+  const openPatientPopup = (patient: Patient) => {
+    setPopupPatient(patient);
+    setShowPopup(true);
+    localStorage.setItem("candidateId", String(patient.id));
+    localStorage.setItem("ptName", patient.name);
+    localStorage.setItem("registrationId", patient.registraionId);
+  };
+
   const handleNext = () => {
     if (!selectedStage) {
       setError("Please select a stage before proceeding.");
@@ -293,15 +304,7 @@ console.log(selectedCandidateTestId,"selectedCandidateTestId")
                  onClick={() => handlePatientClick(patient)}
                  onDoubleClick={() => {
                    handlePatientClick(patient);
-                   navigate('/PatientView', {
-                     state: {
-                       candidate: patient,
-                       candidateId: patient.id,
-                       searchNameFromBox: searchNameFromBox,
-                       searchflow,
-                       enrolled,
-                     },
-                   });
+                   openPatientPopup(patient);
                  }}
                  tabIndex={0}
                  onKeyDown={(e) => {
@@ -380,6 +383,13 @@ console.log(selectedCandidateTestId,"selectedCandidateTestId")
           <img src="/assets/Curable logo - rectangle with black text.png" alt="Curable Logo" className="footer-logo" />
         </div>
       </footer>
+
+      {/* Half-popup (bottom sheet) showing the patient journey instead of navigating to PatientView */}
+      <PatientHistorySheet
+        patient={popupPatient}
+        open={showPopup}
+        onClose={() => setShowPopup(false)}
+      />
     </div>
   );
 };

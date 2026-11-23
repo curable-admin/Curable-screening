@@ -10,6 +10,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { canAll, can, Privilege } from '../../store/userSlice';
 import Loader from "../common/Loader";
+import PatientHistorySheet from "../PatientHistorySheet";
 
 
 interface Patient {
@@ -37,6 +38,8 @@ const PatientSearchPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupPatient, setPopupPatient] = useState<Patient | null>(null);
   const [stageList, setStageList] = useState<string[]>([]);
   const [selectedStage, setSelectedStage] = useState<string | null>(null);
   const [searchSubmitted, setSearchSubmitted] = useState(false);
@@ -353,29 +356,15 @@ navigate("/DiseaseSpecificDetailsScreening", {
                 onClick={() => handlePatientClick(patient)}
                 onDoubleClick={() => {
                   handlePatientClick(patient);
-                  navigate('/PatientView', {
-                    state: {
-                      candidate: patient,
-                      candidateId: patient.id,
-                      searchNameFromBox: searchNameFromBox,
-                      searchflow,
-                      enrolled,
-                    },
-                  });
+                  setPopupPatient(patient);
+                  setShowPopup(true);
                 }}
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     handlePatientClick(patient);
-                    navigate('/PatientView', {
-                      state: {
-                        candidate: patient,
-                        candidateId: patient.id,
-                        searchNameFromBox: searchNameFromBox,
-                        searchflow,
-                        enrolled,
-                      },
-                    });
+                    setPopupPatient(patient);
+                    setShowPopup(true);
                   }
                 }}
               >
@@ -482,6 +471,12 @@ navigate("/DiseaseSpecificDetailsScreening", {
         </>
       )}
       {/* {patients.length === 0 && !loading && <p>No patients found.</p>} */}
+      {/* Half-popup (bottom sheet) showing the patient journey instead of navigating to PatientView */}
+      <PatientHistorySheet
+        patient={popupPatient}
+        open={showPopup}
+        onClose={() => setShowPopup(false)}
+      />
       <footer className="footer-container-fixed">
         <div className="footer-content">
           <p className="footer-text">Powered By</p>

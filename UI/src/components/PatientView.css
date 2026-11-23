@@ -119,3 +119,116 @@
   background: #D76CAF;
   color: #FFFFFF;
 }
+
+/* ── Patient history half-popup (bottom sheet) ──
+   Reused by PatientHistorySheet (Screening / Clinical search pages).
+   Mirrors the "sheet" in the Screening prototype. */
+.pv-sheet-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 30, 50, 0.3);
+  z-index: 1000;
+}
+
+.pv-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 78vh;
+  overflow-y: auto;
+  background: #fff;
+  z-index: 1001;
+  border-radius: 18px 18px 0 0;
+  padding: 16px;
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.15);
+  color: #333;
+  font-family: Arial, sans-serif;
+  animation: pvSheetUp 0.25s ease;
+}
+
+@keyframes pvSheetUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.pv-sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.pv-sheet-header b {
+  font-size: 18px;
+  color: darkblue;
+}
+
+.pv-sheet-close {
+  border: none;
+  background: none;
+  color: #d774ad;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.pv-sheet-patient {
+  background: #f2f4f4;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.pv-sheet-patient-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.pv-sheet-patient-id {
+  font-size: 14px;
+  color: #555;
+  margin-top: 2px;
+}
+
+.pv-sheet-loading {
+  text-align: center;
+  color: #555;
+  font-size: 15px;
+  padding: 20px 0;
+}
+
+/* Default text styles for timeline rows used inside the sheet.
+   (PatientView.tsx overrides these inline, so it is unaffected.) */
+.pv-sheet .pv-date {
+  font-size: 15px;
+  color: #333;
+}
+
+.pv-sheet .pv-badge {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pv-sheet .pv-completed {
+  color: #087A55;
+}
+
+.pv-sheet .pv-pending {
+  color: #A85A00;
+}
+
+.pv-sheet .pv-event-title {
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+}
+
+.pv-sheet .pv-referral {
+  font-size: 14px;
+  color: #555;
+}
