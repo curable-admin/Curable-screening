@@ -547,8 +547,7 @@ const OutreachClinicCreation: React.FC = () => {
                     </div>
                 </label>
                 <label>
-                    <span style={{ color: 'black' }}>Screenings offered at this clinic *:</span>
-                    <span style={{ color: 'darkred', fontWeight: 'bold' }}>*</span>
+                    <span style={{ color: 'black' }}>Screenings offered at this clinic:</span>
                     <div className="meta" style={{ marginBottom: '6px', fontSize: '13px', color: '#5A6680' }}>
                         {selectedScreenings.length} chosen{selectedScreenings.length ? ': ' + diseaseTypes
                             .flatMap(dt => dt.subDiseaseTypes.filter(s => selectedScreenings.includes(s.id)))

@@ -36,12 +36,18 @@
     padding-left: 44px;
 }
 
-/* Toggle button (▸ / ▾) */
+/* Toggle button (▸ / ▾) — borderless icon only */
 .oc-tr-tg {
+    box-sizing: border-box;
     width: 20px;
+    min-width: 20px;
+    max-width: 20px;
     height: 20px;
-    border: 1px solid #D7DBE5;
-    background: #fff;
+    min-height: 20px;
+    max-height: 20px;
+    flex: 0 0 20px;
+    border: none;
+    background: transparent;
     color: #5A6680;
     font-size: 11px;
     font-weight: 700;
@@ -49,16 +55,24 @@
     align-items: center;
     justify-content: center;
     padding: 0;
-    flex-shrink: 0;
+    margin: 0 8px 0 0;
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 0;
     line-height: 1;
-    margin-right: 8px;
+    overflow: hidden;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .oc-tr-tg:hover {
-    border-color: #0B3B6F;
     color: #0B3B6F;
+}
+
+/* Keep the glyph itself from affecting the button size across browsers */
+.oc-tr-tg,
+.oc-tr-tg::after {
+    height: 20px;
+    line-height: 20px;
 }
 
 /* Spacer for level 2 rows (aligns with toggle column) */
@@ -96,4 +110,26 @@
 
 .oc-tr2 .oc-tree-label {
     font-weight: 500;
+}
+
+/* ============================================================
+   Mobile view: keep the expand/collapse icon a fixed size so it
+   does not grow when toggling between ▸ (collapsed) and ▾ (expanded)
+   ============================================================ */
+@media (max-width: 768px) {
+    .oc-tr-tg,
+    .oc-tr-tg::after {
+        box-sizing: border-box;
+        width: 20px;
+        min-width: 20px;
+        max-width: 20px;
+        height: 20px;
+        min-height: 20px;
+        max-height: 20px;
+        flex: 0 0 20px;
+        font-size: 11px;
+        line-height: 20px;
+        padding: 0;
+        overflow: hidden;
+    }
 }
