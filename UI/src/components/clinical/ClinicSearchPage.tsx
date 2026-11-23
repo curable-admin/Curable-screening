@@ -285,13 +285,40 @@ console.log(selectedCandidateTestId,"selectedCandidateTestId")
             <label className="select-label">Select Patient</label>
             <div>
               {patients.map((patient) => (
-                <div
-                  key={patient.id}
-                  className={`patient-item ${
-                    selectedPatient?.id === patient.id ? "selected" : ""
-                  }`}
-                  onClick={() => handlePatientClick(patient)}
-                >
+               <div
+                 key={patient.id}
+                 className={`patient-item ${
+                   selectedPatient?.id === patient.id ? "selected" : ""
+                 }`}
+                 onClick={() => handlePatientClick(patient)}
+                 onDoubleClick={() => {
+                   handlePatientClick(patient);
+                   navigate('/PatientView', {
+                     state: {
+                       candidate: patient,
+                       candidateId: patient.id,
+                       searchNameFromBox: searchNameFromBox,
+                       searchflow,
+                       enrolled,
+                     },
+                   });
+                 }}
+                 tabIndex={0}
+                 onKeyDown={(e) => {
+                   if (e.key === 'Enter') {
+                     handlePatientClick(patient);
+                     navigate('/PatientView', {
+                       state: {
+                         candidate: patient,
+                         candidateId: patient.id,
+                         searchNameFromBox: searchNameFromBox,
+                         searchflow,
+                         enrolled,
+                       },
+                     });
+                   }
+                 }}
+               >
                   <div className="patient-box">
                     <div>
                       <strong>Name:</strong> {patient.name}
