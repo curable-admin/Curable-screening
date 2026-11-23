@@ -53,7 +53,7 @@ const PatientView: React.FC = () => {
         <p className="participant-info-text"><strong>Participant: </strong> {name} {age}/{gender}</p>
         <p className="participant-info-text"><strong>ID:</strong> {registrationId}</p>
       </div>
-      <h1 style={{ color: 'darkblue' }}>Patient journey</h1>
+      <h1 className="pv-heading" style={{ color: 'darkblue' }}>Patient history</h1>
       <div className="pv-timeline">
         <div className="pv-line" />
         <div className="pv-event">
@@ -89,6 +89,12 @@ const PatientView: React.FC = () => {
         <button className="pv-btn pv-edit" style={{ fontSize: '16px', fontWeight: '600' }} onClick={() => navigate('/PatientEdit', { state: { searchName: searchNameFromBox, searchflow, enrolled, registrationId: registrationId } })}>Back</button>
         <button className="pv-btn pv-start" style={{ fontSize: '16px', fontWeight: '700' }}>Start screening</button>
       </div>
+      <footer className="footer-container-fixed">
+        <div className="footer-content">
+          <p className="footer-text">Powered By</p>
+          <img src="/assets/Curable logo - rectangle with black text.png" alt="Curable Logo" className="footer-logo" />
+        </div>
+      </footer>
     </div>
   );
 };

@@ -114,14 +114,16 @@ const PatientHistorySheet: React.FC<PatientHistorySheetProps> = ({
                   <div className="pv-date-row">
                     <span className="pv-date">{h.createdDate || h.date}</span>
                     {h.status && (
-                      <span
-                        className={`pv-badge ${
-                          String(h.status).toLowerCase() === 'completed'
-                            ? 'pv-completed'
-                            : 'pv-pending'
-                        }`}
-                      >
-                        {h.status}
+                      <span className="pv-badge-slot">
+                        <span
+                          className={`pv-badge ${
+                            String(h.status).toLowerCase() === 'completed'
+                              ? 'pv-completed'
+                              : 'pv-pending'
+                          }`}
+                        >
+                          {h.status}
+                        </span>
                       </span>
                     )}
                   </div>

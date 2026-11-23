@@ -1,5 +1,7 @@
 .container21 {
   padding: 2rem;
+  /* Leave room for the fixed footer so it never overlaps the buttons. */
+  padding-bottom: 80px;
 }
 @media only screen and (max-width: 768px) {
   .container21 {
@@ -10,6 +12,10 @@
 
 .participant-container {
   width: 100%;
+  /* border-box so the 1px border is included in the width; otherwise the
+     box is 2px wider than the timeline and its left edge drifts ~1px when
+     the column is centered, misaligning it with the timeline circles. */
+  box-sizing: border-box;
   margin: 0 auto;
   background-color: #f2f4f4;
   padding: 15px 20px;
@@ -32,6 +38,13 @@
 .pv-timeline {
   position: relative;
   padding-left: 28px;
+}
+
+/* Heading sits above the timeline; align its left edge with the
+   timeline's text content (timeline padding-left + event margin). */
+.pv-heading {
+  padding-left: 0;
+  box-sizing: border-box;
 }
 
 .pv-line {
@@ -72,9 +85,11 @@
 
 .pv-badge-slot {
   display: inline-block;
-  width: 110px;
+  /* Hug the badge content and push to the far right so the status pill
+     touches the right edge of the participant (Patient ID) container. */
+  margin-left: auto;
+  text-align: right;
   flex-shrink: 0;
-  text-align: left;
 }
 
 .pv-badge {
@@ -122,12 +137,18 @@
 .pv-buttons {
   display: flex;
   gap: 15px;
-  padding: 0 24px 23px;
+  /* No horizontal padding so Back touches the left (start) edge and
+     Start screening touches the right (end) edge, matching the header. */
+  padding: 0 0 23px;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .pv-btn {
-  flex: 1;
-  height: 52px;
+  /* Each button flexes to fill half the row, so together they span the
+     full width from the start margin to the end margin. */
+  flex: 1 1 0;
+  height: 44px;
   border-radius: 13px;
   cursor: pointer;
   border: none;
@@ -191,7 +212,7 @@
 .pv-sheet-close {
   border: none;
   background: none;
-  color: #d774ad;
+  color: darkblue;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
@@ -228,3 +249,154 @@
 
 /* Timeline text styles are defined on the base .pv-* classes above, so
    editing the font sizes there also updates the PatientHistorySheet popup. */
+
+/* ─────────────────────────────────────────────────────────────
+   Responsive layout for the Patient journey view (PatientView)
+   and the Patient history bottom-sheet popup (PatientHistorySheet).
+
+   Strategy: mobile-first tweaks via max-width media queries plus a
+   capped content width on large screens so the timeline never
+   stretches edge-to-edge on desktop. Only .pv-* / sheet rules are
+   touched, so nothing else in the app is affected.
+   ───────────────────────────────────────────────────────────── */
+
+/* Large / desktop: keep the journey readable instead of full-bleed. */
+@media only screen and (min-width: 992px) {
+  /* Include the header so the hamburger lines up with the "Patient journey"
+     heading and the timeline circles (all share the same left edge). */
+  .container21 .header,
+  .container21 .pv-timeline,
+  .container21 .pv-buttons,
+  .container21 .pv-heading {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .container21 .participant-container {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* On desktop the sheet becomes a centered, rounded modal card. */
+  .pv-sheet {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: 24px;
+    width: 560px;
+    max-height: 80vh;
+    border-radius: 18px;
+    animation: none;
+  }
+}
+
+/* Tablet / small desktop: tighten spacing a little. */
+@media only screen and (max-width: 991px) {
+  .pv-timeline {
+    padding-left: 24px;
+  }
+  /* Keep the circle centered on the line: circle center = padding-left
+     + circle.left + width/2 must equal line center (left + 1). */
+  .pv-circle {
+    left: -24px;
+  }
+  .pv-heading {
+    padding-left: 0;
+  }
+  .pv-event {
+    margin-bottom: 20px;
+  }
+}
+
+/* Mobile phones: compact timeline, full-width sheet, stacked date row. */
+@media only screen and (max-width: 600px) {
+  .pv-timeline {
+    padding-left: 20px;
+  }
+  .pv-heading {
+    padding-left: 0;
+  }
+  .pv-line {
+    left: 7px;
+  }
+  .pv-circle {
+    left: -20px;
+    width: 16px;
+    height: 16px;
+  }
+  .pv-event {
+    margin-bottom: 18px;
+  }
+  .pv-event-content {
+    margin-left: 6px;
+  }
+
+  /* Let the date and badge sit on one line but wrap gracefully if tight.
+     Note: the badge itself (.pv-badge / .pv-badge-slot) is intentionally NOT
+     resized here so it looks identical on mobile and web. */
+  .pv-date-row {
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+
+  /* Buttons span the full width edge-to-edge (start to end) like web. */
+  .pv-buttons {
+    flex-direction: row;
+    gap: 10px;
+    padding: 0 0 16px;
+  }
+  .pv-btn {
+    flex: 1 1 0;
+    width: auto;
+    max-width: none;
+    height: 44px;
+  }
+
+  /* Bottom sheet fills the width on phones. */
+  .pv-sheet {
+    padding: 14px;
+    max-height: 85vh;
+  }
+  .pv-sheet-header b {
+    font-size: 17px;
+  }
+}
+
+/* Very small phones: keep the badge identical to web (no shrinking) so the
+   "Pending" / "Completed" status looks the same on every screen size. */
+@media only screen and (max-width: 380px) {
+  .pv-badge-slot {
+    min-width: 0;
+  }
+}
+
+/* ── Footer (matches the other screens: "Powered By" + Curable logo) ── */
+.footer-container-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.footer-text {
+  font-weight: bold;
+  margin: 0;
+}
+
+.footer-logo {
+  width: 100px;
+  background-color: #fff;
+  padding: 2px;
+  border-radius: 4px;
+}
