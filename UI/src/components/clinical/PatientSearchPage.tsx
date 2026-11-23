@@ -11,6 +11,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { canAll, can, Privilege } from '../../store/userSlice';
 import Loader from "../common/Loader";
 import PatientHistorySheet from "../PatientHistorySheet";
+import { useDoubleTap } from "../../hooks/useDoubleTap";
 
 
 interface Patient {
@@ -238,6 +239,11 @@ const formatDate = (dateValue: string | number | null) => {
   });
 };
 
+  const handleTouchEnd = useDoubleTap((patient: Patient) => {
+    setPopupPatient(patient);
+    setShowPopup(true);
+  });
+
   const handleNext = () => {
     if (!selectedStage) {
       setError("Please select a stage before proceeding.");
@@ -353,11 +359,9 @@ navigate("/DiseaseSpecificDetailsScreening", {
                 className={`patient-item ${
                   selectedPatient?.id === patient.id ? "selected" : ""
                 }`}
-                onClick={() => handlePatientClick(patient)}
-                onDoubleClick={() => {
+                onClick={() => {
                   handlePatientClick(patient);
-                  setPopupPatient(patient);
-                  setShowPopup(true);
+                  handleTouchEnd(patient);
                 }}
                 tabIndex={0}
                 onKeyDown={(e) => {

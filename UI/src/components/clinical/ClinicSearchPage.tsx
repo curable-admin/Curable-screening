@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { selectPrivilegeFlags } from '../../store/userSlice';
 import Loader from "../common/Loader";
 import PatientHistorySheet from "../PatientHistorySheet";
+import { useDoubleTap } from "../../hooks/useDoubleTap";
 import { useNavigate, useLocation } from "react-router-dom";
 
 
@@ -218,6 +219,10 @@ const formatDate = (dateValue: string | number | null) => {
     localStorage.setItem("registrationId", patient.registraionId);
   };
 
+  const handleTouchEnd = useDoubleTap((patient: Patient) => {
+    openPatientPopup(patient);
+  });
+
   const handleNext = () => {
     if (!selectedStage) {
       setError("Please select a stage before proceeding.");
@@ -301,12 +306,11 @@ console.log(selectedCandidateTestId,"selectedCandidateTestId")
                  className={`patient-item ${
                    selectedPatient?.id === patient.id ? "selected" : ""
                  }`}
-                 onClick={() => handlePatientClick(patient)}
-                 onDoubleClick={() => {
-                   handlePatientClick(patient);
-                   openPatientPopup(patient);
-                 }}
-                 tabIndex={0}
+                  onClick={() => {
+                    handlePatientClick(patient);
+                    handleTouchEnd(patient);
+                  }}
+                  tabIndex={0}
                  onKeyDown={(e) => {
                    if (e.key === 'Enter') {
                      handlePatientClick(patient);

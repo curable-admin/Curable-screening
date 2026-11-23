@@ -73,18 +73,30 @@
 .pv-badge {
   padding: 5px 8px;
   border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pv-date {
+  font-size: 18px;
+  color: black;
 }
 
 .pv-completed {
   background: #E1F3EB;
+  color: #087A55;
 }
 
 .pv-pending {
   background: #FFF0D9;
+  color: #A85A00;
 }
 
 .pv-event-title {
   margin-top: 4px;
+  font-size: 20px;
+  color: black;
+  font-weight: 700;
 }
 
 .pv-completed-text {
@@ -93,6 +105,8 @@
 
 .pv-referral {
   margin-top: 2px;
+  font-size: 16px;
+  color: black;
 }
 
 .pv-buttons {
@@ -202,33 +216,5 @@
   padding: 20px 0;
 }
 
-/* Default text styles for timeline rows used inside the sheet.
-   (PatientView.tsx overrides these inline, so it is unaffected.) */
-.pv-sheet .pv-date {
-  font-size: 15px;
-  color: #333;
-}
-
-.pv-sheet .pv-badge {
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.pv-sheet .pv-completed {
-  color: #087A55;
-}
-
-.pv-sheet .pv-pending {
-  color: #A85A00;
-}
-
-.pv-sheet .pv-event-title {
-  font-size: 16px;
-  color: #333;
-  font-weight: bold;
-}
-
-.pv-sheet .pv-referral {
-  font-size: 14px;
-  color: #555;
-}
+/* Timeline text styles are defined on the base .pv-* classes above, so
+   editing the font sizes there also updates the PatientHistorySheet popup. */
