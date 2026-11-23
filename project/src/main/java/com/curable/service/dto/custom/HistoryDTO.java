@@ -27,7 +27,7 @@ public class HistoryDTO {
 		this.date = com.curable.util.CommonUtil.getDateYYYYMMDD(createdDate);
 		this.title = title;
 		this.referral = referral == null ? null : (referral ? "Yes" : "No");
-		this.status = completed == 1 ? "COMPLETED" : "Pending";
+		this.status = completed == 1 ? "Completed" : "Pending";
 	}
 
 	public HistoryDTO(Long id, String date, String title, String referral, String status, Integer sequence) {

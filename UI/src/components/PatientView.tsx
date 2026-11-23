@@ -60,9 +60,9 @@ const PatientView: React.FC = () => {
           <div className="pv-circle" />
           <div className="pv-event-content">
             <div className="pv-date-row">
-              <span className="pv-date" style={{ fontSize: '18px', color: 'black' }}>{createdDate}</span>
+              <span className="pv-date" style={{ fontSize: '16px', color: 'black' }}>{createdDate}</span>
             </div>
-            <div className="pv-event-title" style={{ fontSize: '20px', color: 'black', fontWeight: '700' }}>Registered</div>
+            <div className="pv-event-title" style={{ fontSize: '17px', color: 'black', fontWeight: '700' }}>Registered</div>
           </div>
         </div>
         {history.map((h, i) => (
@@ -70,14 +70,16 @@ const PatientView: React.FC = () => {
             <div className="pv-circle" />
             <div className="pv-event-content">
               <div className="pv-date-row">
-                <span className="pv-date" style={{ fontSize: '18px', color: 'black' }}>{h.createdDate || h.date}</span>
+                <span className="pv-date" style={{ fontSize: '16px', color: 'black' }}>{h.createdDate || h.date}</span>
                 {h.status && (
-                  <span className={`pv-badge ${String(h.status).toLowerCase() === 'completed' ? 'pv-completed' : 'pv-pending'}`} style={{ fontSize: '15px', fontWeight: '600', color: String(h.status).toLowerCase() === 'completed' ? '#087A55' : '#A85A00' }}>
-                    {h.status}
+                  <span className="pv-badge-slot">
+                    <span className={`pv-badge ${String(h.status).toLowerCase() === 'completed' ? 'pv-completed' : 'pv-pending'}`} style={{ fontSize: '15px', fontWeight: '600', color: String(h.status).toLowerCase() === 'completed' ? '#087A55' : '#A85A00' }}>
+                      {h.status}
+                    </span>
                   </span>
                 )}
               </div>
-              <div className="pv-event-title" style={{ fontSize: '20px', color: 'black', fontWeight: '700' }}>{h.title || h.screeningName || h.name}</div>
+              <div className="pv-event-title" style={{ fontSize: '17px', color: 'black', fontWeight: '700' }}>{h.title || h.screeningName || h.name}</div>
               {h.referral && <div className="pv-referral" style={{ fontSize: '16px', color: 'black' }}>Referral: {h.referral}</div>}
             </div>
           </div>

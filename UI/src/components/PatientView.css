@@ -70,15 +70,25 @@
   align-items: center;
 }
 
+.pv-badge-slot {
+  display: inline-block;
+  width: 110px;
+  flex-shrink: 0;
+  text-align: left;
+}
+
 .pv-badge {
+  display: inline-block;
   padding: 5px 8px;
   border-radius: 999px;
   font-size: 15px;
   font-weight: 600;
+  text-align: left;
+  box-sizing: border-box;
 }
 
 .pv-date {
-  font-size: 18px;
+  font-size: 16px;
   color: black;
 }
 
@@ -94,7 +104,7 @@
 
 .pv-event-title {
   margin-top: 4px;
-  font-size: 20px;
+  font-size: 17px;
   color: black;
   font-weight: 700;
 }
