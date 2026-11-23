@@ -72,11 +72,11 @@ const enrolled = location.state?.enrolled || "";
 
 
     React.useEffect(() => {
-  if (searchNameFromBox && searchNameFromBox.trim().length >= 3) {
-    setSearchInput(registrationId);
-    handleSearch(registrationId);
-  }
-}, []);
+    if (searchNameFromBox && searchNameFromBox.trim().length >= 3) {
+      setSearchInput(searchNameFromBox);
+      handleSearch(searchNameFromBox);
+    }
+  }, [searchNameFromBox, registrationId]);
 const handleSearch = async (value?: string) => {
     // Require at least 3 characters before searching to avoid broad queries
     setLoading(true);
@@ -158,7 +158,7 @@ setCandidates(candidatesData);
       localStorage.setItem('campId', String(candidateObj.campId));
     }
     navigate('/PatientView', { state: { candidateId: candidateId, candidate: candidateObj,
-      searchNameFromBox,
+      searchNameFromBox: searchInput,
       searchflow,
       enrolled
     } });
