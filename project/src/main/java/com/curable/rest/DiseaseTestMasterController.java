@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.curable.domain.enums.Gender;
 import com.curable.service.DiseaseTestMasterService;
 import com.curable.service.dto.DiseaseTestMasterDTO;
-import com.curable.service.dto.custom.DiseaseTypeWithSubTypesDTO;
 
 @RestController
 public class DiseaseTestMasterController {
@@ -58,11 +57,6 @@ public class DiseaseTestMasterController {
 			@PathVariable Long hospitalId) {
 		// log.debug("REST request to get DiseaseTestMasters : {}", id);
 		return service.getMetrics(type, Gender.valueOf(gender), hospitalId);
-	}
-
-	@GetMapping("/diseasetypes/hospital/{hospitalId}")
-	public List<DiseaseTypeWithSubTypesDTO> getDiseaseTypesWithSubTypesByHospitalId(@PathVariable Long hospitalId) {
-		return service.getDiseaseTypesWithSubTypesByHospitalId(hospitalId);
 	}
 
 }

@@ -84,7 +84,7 @@ spring:
         open-in-view: false
         generate-ddl: true
         hibernate:
-            ddl-auto: update
+            ddl-auto: none
             naming: {physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl}
             use-new-id-generator-mappings: true
         properties:
@@ -98,7 +98,7 @@ spring:
             batch: {size: 20}, 
             cache: {use_query_cache: false, use_second_level_cache: false}, 
             enable_lazy_load_no_trans: true, 
-            event: {merge: {entity_copy_observer: allow}}, generate_statistics: true, hbm2ddl: {auto: update}, id: {new_generator_mappings: false}}
+            event: {merge: {entity_copy_observer: allow}}, generate_statistics: true, hbm2ddl: {auto: none}, id: {new_generator_mappings: false}}
             org: {hibernate: {envers: {audit_table_suffix: _aud, default_catalog: ca_audit, revision_field_name: revision_id, revision_type_field_name: revision_type}}}
 
 

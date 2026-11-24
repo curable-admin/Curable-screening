@@ -57,7 +57,7 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long>, Que
 			+ "voterId,rationCard,tobaccoUser,socialHabits) from Candidate where id=:candidateId ")
 	CandidateDTO getCandidate(Long candidateId);
 
-	@Query("select new com.curable.service.dto.CandidateDTO(a.id,a.name,a.gender,a.dob,a.mobileNo,a.hospital.id,a.registraionId,a.spouseName,a.fatherName,a.consentDate,CASE WHEN a.optionalId = 2 AND a.revisitStatus = 0 THEN 1 WHEN a.revisitStatus = 1 THEN 2 ELSE 0 END,CASE WHEN (a.optionalId = 2 or a.revisitStatus=1) THEN a.lastModifiedDate ELSE null END,a.enrolled ,a.createdDate) from Candidate a where a.hospital.id =:hospitalId and a.surveyStatus is null and (a.name like %:search% or a.registraionId like %:search%  or a.mobileNo like %:search% or a.address like %:search%) order by a.createdDate desc")
+	@Query("select new com.curable.service.dto.CandidateDTO(a.id,a.name,a.gender,a.dob,a.mobileNo,a.hospital.id,a.registraionId,a.spouseName,a.fatherName,a.consentDate,CASE WHEN a.optionalId = 2 AND a.revisitStatus = 0 THEN 1 WHEN a.revisitStatus = 1 THEN 2 ELSE 0 END,CASE WHEN (a.optionalId = 2 or a.revisitStatus=1) THEN a.lastModifiedDate ELSE null END,a.enrolled) from Candidate a where a.hospital.id =:hospitalId and a.surveyStatus is null and (a.name like %:search% or a.registraionId like %:search%  or a.mobileNo like %:search% or a.address like %:search%) order by a.createdDate desc")
 	List<CandidateDTO> getCandidateData(Long hospitalId, String search);
 
 	@Modifying(flushAutomatically = true)
@@ -69,7 +69,7 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long>, Que
 	int markAsActive(Long id, String name, String mobileNo, Gender gender, Integer age, String address,
 					 Integer streetId, LocalDate dob, boolean isDeleted, boolean isEntrolled);
 
-	@Query("select new com.curable.service.dto.CandidateDTO(a.id,a.name,a.gender,a.dob,a.mobileNo,a.hospital.id,a.registraionId,a.spouseName,a.fatherName,a.consentDate,CASE WHEN a.optionalId = 2 AND a.revisitStatus = 0 THEN 1 WHEN a.revisitStatus = 1 THEN 2 ELSE 0 END,CASE WHEN (a.optionalId = 2 or a.revisitStatus=1) THEN a.lastModifiedDate ELSE null END,a.enrolled,a.createdDate) from Candidate a  left join CampStaff b on b.camp.id=a.camp.id"
+	@Query("select new com.curable.service.dto.CandidateDTO(a.id,a.name,a.gender,a.dob,a.mobileNo,a.hospital.id,a.registraionId,a.spouseName,a.fatherName,a.consentDate,CASE WHEN a.optionalId = 2 AND a.revisitStatus = 0 THEN 1 WHEN a.revisitStatus = 1 THEN 2 ELSE 0 END,CASE WHEN (a.optionalId = 2 or a.revisitStatus=1) THEN a.lastModifiedDate ELSE null END,a.enrolled) from Candidate a  left join CampStaff b on b.camp.id=a.camp.id"
 			+ " where b.hospitalEmployee.id =:userId and a.hospital.id=:hospitalId and a.surveyStatus is null and (a.name like %:search% or a.registraionId like %:search%  or a.mobileNo like %:search% or a.address like %:search%) order by a.createdDate desc")
 	List<CandidateDTO> getCandidateForOtherRole(Long userId, String search, Long hospitalId);
 

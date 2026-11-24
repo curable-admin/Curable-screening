@@ -14,10 +14,8 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.curable.config.EmailService;
-import com.curable.domain.AppVersion;
 import com.curable.domain.Employee;
 import com.curable.domain.HospitalEmployeeMap;
-import com.curable.repository.AppVersionRepository;
 import com.curable.repository.EmployeeRepository;
 import com.curable.repository.HospitalEmployeeMapRepository;
 import com.curable.repository.MenuRoleMappingRepository;
@@ -61,8 +59,6 @@ public class AuthService {
 
 	@Autowired
 	EmailService emailService;
-	@Autowired
-	AppVersionRepository appVersionRepository;
 
 	public AuthMenuDTO getMenu(String login) throws Exception {
 		try {
@@ -77,8 +73,6 @@ public class AuthService {
 						userDetails.setTenantName(split[1]);
 						userDetails.setHospitalCode(split[2]);
 					}
-					appVersionRepository.findTopByOrderByCreatedDateDesc()
-							.ifPresent(appVersion -> userDetails.setAppVersion(appVersion.getVersion()));
 
 				} else {
 					userDetails.setMessage("Your login access is inactive. Please contact the admin");

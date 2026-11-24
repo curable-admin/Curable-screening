@@ -26,7 +26,6 @@ interface Candidate {
   campId?: number;
   hospitalId: number;
   enrolled?: boolean; // optional, default to false if not provided
-  createdDate?: string | null;
 }
 
 
@@ -44,7 +43,6 @@ interface CandidateAPIResponse {
   campId?: number | null;
   hospitalId: number;
   enrolled?: boolean; // optional, default to false if not provided
-    createdDate?: string | null;
 
 }
 
@@ -72,11 +70,11 @@ const enrolled = location.state?.enrolled || "";
 
 
     React.useEffect(() => {
-    if (searchNameFromBox && searchNameFromBox.trim().length >= 3) {
-      setSearchInput(searchNameFromBox);
-      handleSearch(searchNameFromBox);
-    }
-  }, [searchNameFromBox, registrationId]);
+  if (searchNameFromBox && searchNameFromBox.trim().length >= 3) {
+    setSearchInput(registrationId);
+    handleSearch(registrationId);
+  }
+}, []);
 const handleSearch = async (value?: string) => {
     // Require at least 3 characters before searching to avoid broad queries
     setLoading(true);
@@ -128,7 +126,6 @@ const handleSearch = async (value?: string) => {
   campId: c.campId ?? undefined,
   hospitalId: c.hospitalId,
   enrolled: c.enrolled ?? false, // default to false if not provided
-  createdDate: c.createdDate,
 }));
 
 setCandidates(candidatesData);
@@ -150,18 +147,6 @@ setCandidates(candidatesData);
 
   const handleCloseNoCandidateDialog = () => {
     setOpenNoCandidateDialog(false);
-  };
-
-  const handleViewClick = (candidateId: number, candidateObj?: Candidate | any) => {
-    localStorage.setItem('patientId', candidateId.toString());
-    if (candidateObj && candidateObj.campId !== undefined && candidateObj.campId !== null) {
-      localStorage.setItem('campId', String(candidateObj.campId));
-    }
-    navigate('/PatientView', { state: { candidateId: candidateId, candidate: candidateObj,
-      searchNameFromBox: searchInput,
-      searchflow,
-      enrolled
-    } });
   };
 
   const handleEditClick = (candidateId: number, candidateObj?: Candidate | any) => {
@@ -250,13 +235,7 @@ localStorage.removeItem("weightval");
                 <p><strong>Spouse Name:</strong> <span>{candidate.spouseName}</span></p>
                 <p><strong>Father Name:</strong> <span>{candidate.fatherName}</span></p>
                 <p><strong>Mobile No:</strong> <span>{candidate.mobileNo}</span></p>
-                <div className="edit-button-container" style={{ display: 'flex', gap: '8px' }}>
-                  <button  disabled={!allowAllThree }
-                    className={`edit-button ${!allowAllThree ? 'disabled-button' : ''}`}
-                    onClick={() => handleViewClick(candidate.id,candidate)}
-                  >
-                    View
-                  </button>
+                <div className="edit-button-container">
                   <button  disabled={!allowAllThree }
                     className={`edit-button ${!allowAllThree ? 'disabled-button' : ''}`}
                     onClick={() => handleEditClick(candidate.id,candidate)}

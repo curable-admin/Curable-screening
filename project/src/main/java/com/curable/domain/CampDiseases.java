@@ -1,5 +1,7 @@
 package com.curable.domain;
 
+import java.time.Instant;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,8 +15,8 @@ import org.hibernate.envers.Audited;
 
 @Audited
 @Entity
-@Table(name = "campdisease")
-public class CampDisease extends AbstractAuditingEntity {
+@Table(name = "campdiseases")
+public class CampDiseases extends AbstractAuditingEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -24,16 +26,16 @@ public class CampDisease extends AbstractAuditingEntity {
 	private Camp camp;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "diseaseTestMasterId")
-	private DiseaseTestMaster diseaseTestMaster;
+	@JoinColumn(name = "subDiseaseMasterId")
+	private SubDiseaseMaster subDiseaseMaster;
 
-	public CampDisease() {
+	public CampDiseases() {
 	}
 
-	public CampDisease(Long id, Camp camp, DiseaseTestMaster diseaseTestMaster) {
+	public CampDiseases(Long id, Camp camp, SubDiseaseMaster subDiseaseMaster) {
 		this.id = id;
 		this.camp = camp;
-		this.diseaseTestMaster = diseaseTestMaster;
+		this.subDiseaseMaster = subDiseaseMaster;
 	}
 
 	public Long getId() {
@@ -52,19 +54,19 @@ public class CampDisease extends AbstractAuditingEntity {
 		this.camp = camp;
 	}
 
-	public DiseaseTestMaster getDiseaseTestMaster() {
-		return diseaseTestMaster;
+	public SubDiseaseMaster getSubDiseaseMaster() {
+		return subDiseaseMaster;
 	}
 
-	public void setDiseaseTestMaster(DiseaseTestMaster diseaseTestMaster) {
-		this.diseaseTestMaster = diseaseTestMaster;
+	public void setSubDiseaseMaster(SubDiseaseMaster subDiseaseMaster) {
+		this.subDiseaseMaster = subDiseaseMaster;
 	}
 
 	public String toString() {
-		return "CampDisease [" +
+		return "CampDiseases [" +
 		"id=" + id +
 		"camp=" + camp +
-		"diseaseTestMaster=" + diseaseTestMaster +
+		"subDiseaseMaster=" + subDiseaseMaster +
 		"]";
 	}
 }

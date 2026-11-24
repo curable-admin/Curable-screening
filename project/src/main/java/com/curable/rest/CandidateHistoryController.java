@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.curable.service.CandidateHistoryService;
 import com.curable.service.dto.CandidateHistoryDTO;
 import com.curable.service.dto.custom.CandidateSearchCustomDTO;
-import com.curable.service.dto.custom.HistoryDTO;
 
 @RestController
 public class CandidateHistoryController {
@@ -53,12 +52,6 @@ public class CandidateHistoryController {
 	public List<CandidateHistoryDTO> getCandidateHistoryCandidate(@PathVariable Long id) {
 		// log.debug("REST request to get CandidateHistorys : {}", id);
 		return service.findByCandidate_IdAndIsRecordDeletedFalse(id);
-	}
-
-	@GetMapping("/candidateCustomHistory/{candidateId}")
-	public List<HistoryDTO> getHistoryByCandidateId(@PathVariable Long candidateId) {
-		// log.debug("REST request to get candidate history : {}", candidateId);
-		return service.getHistoryByCandidateId(candidateId);
 	}
 
 	@PostMapping("/candidatehistoryForPrefil")

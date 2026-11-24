@@ -57,7 +57,6 @@ const Login: React.FC = () => {
     message: string | null;
     hospitalId: number;
     tenantName: string;
-    appVersion?: string;
   }
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -92,25 +91,16 @@ const Login: React.FC = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      console.log(authorize, "authorize");
-
-      const apiAppVersion = authorize?.appVersion;
-      if (apiAppVersion && config.version && apiAppVersion !== config.version) {
-        setError(`App version mismatch. Server: ${apiAppVersion}, UI: ${config.version}. Refreshing...`);
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-        return;
-      }
-
       // seed Redux (this also injects "Modify Patient Information")
+      console.log(authorize,"authorize")
       dispatch(setAuthorizedUser(authorize));
 
       // mirror a few legacy values if you still read them elsewhere
       localStorage.setItem('hospitalId', String(authorize.hospitalId ?? ''));
       localStorage.setItem('tenantName', authorize.tenantName ?? '');
       localStorage.setItem('userId', String(authorize.userId ?? ''));
-      localStorage.setItem('roleId', String(authorize.roleId ?? ''));
+            localStorage.setItem('roleId', String(authorize.roleId ?? ''));
+
 
       // 3) go to home
       navigate('/responsive-cancer-institute');
@@ -241,7 +231,6 @@ const Login: React.FC = () => {
         <div className="footer-content">
           <p className="footer-text">Powered By</p>
           <img src="/assets/Curable logo - rectangle with black text.png" alt="Curable Logo" className="footer-logo" />
-          {config.version && <span className="footer-version">({config.version})</span>}
         </div>
       </footer>
     </div>

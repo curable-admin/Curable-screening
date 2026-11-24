@@ -109,10 +109,6 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;  /* Added space between each patient item */
-    cursor: pointer; /* makes iOS Safari treat the row as tappable/clickable */
-    /* Disable double-tap zoom on mobile so double-tap can open the journey */
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
 }
 .patient-item.selected {
   background-color: #d3f4ff;

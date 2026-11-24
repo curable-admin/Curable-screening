@@ -3,6 +3,8 @@ package com.curable.service.dto;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -53,7 +55,6 @@ public class CandidateDTO implements Serializable {
 	private String tobaccoHabbits;
 	private Integer revisitStatus;
 	private String lastVistCompletedDate;
-	private String createdDate;
 
 	public String getLastVistCompletedDate() {
 		return lastVistCompletedDate;
@@ -152,7 +153,7 @@ public class CandidateDTO implements Serializable {
 	// Modify patient dashboard
 	public CandidateDTO(Long id, String name, Gender gender, LocalDate dob, String mobileNo, Long hospitalId,
 			String registraionId, String spouseName, String fatherName, Instant consentDate, Integer revisitStatus,
-			Instant date, Boolean enrolled, Instant createdDate) {
+			Instant date,Boolean enrolled) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -167,9 +168,10 @@ public class CandidateDTO implements Serializable {
 		this.revisitStatus = revisitStatus;
 		this.lastVistCompletedDate = CommonUtil.getDate(date);
 		this.reason = "Screening";
-		this.enrolled = enrolled;
-		this.createdDate = CommonUtil.getDateYYYYMMDD(createdDate);
+		this.enrolled=enrolled;
 	}
+
+	
 
 	public CandidateDTO(Long id, String name, Gender gender, Integer age, String maritalStatus, String tobaccoHabbits,
 			Long parentCandidateId, String relation) {
@@ -452,14 +454,6 @@ public class CandidateDTO implements Serializable {
 				+ parentCandidateId + ", surveyStatus=" + surveyStatus + ", consentDate=" + consentDate
 				+ ", consentSign=" + consentSign + ", dob=" + dob + ", streetId=" + streetId + ", fatherName="
 				+ fatherName + ", alternateMobileNo=" + alternateMobileNo + ", occupation=" + occupation + "]";
-	}
-
-	public String getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(String createdDate) {
-		this.createdDate = createdDate;
 	}
 
 }

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.curable.domain.DiseaseTestMaster;
 import com.curable.domain.enums.Gender;
 import com.curable.service.dto.DiseaseTestMasterDTO;
-import com.curable.service.dto.custom.DiseaseTestMasterProjectionDTO;
 
 @Repository
 public interface DiseaseTestMasterRepository
@@ -39,8 +38,5 @@ public interface DiseaseTestMasterRepository
 	List<DiseaseTestMasterDTO> getTestByHospital(Gender gender, String stage, Long hospitalId);
 
 	DiseaseTestMaster findByStageAndHospital_idAndIsRecordDeletedFalse(String stage, Long hospitalId);
-
-	@Query("select new com.curable.service.dto.custom.DiseaseTestMasterProjectionDTO(dtm.id, dtm.description, dm.id, dm.name) from DiseaseTestMaster dtm left join dtm.diseaseMaster dm where dtm.hospital.id = :hospitalId and dtm.name='SCREENING' and  dtm.isRecordDeleted = false and dm is not null")
-	List<DiseaseTestMasterProjectionDTO> findProjectionByHospitalId(Long hospitalId);
 
 }

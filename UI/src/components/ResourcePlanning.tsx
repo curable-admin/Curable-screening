@@ -12,7 +12,7 @@ import Loader from "../components/common/Loader";
 const ResourcePlanning: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { startDate, endDate, panchayatId,pincode, clinicName, clinicCode, selectedScreenings } = location.state || {};
+  const { startDate, endDate, panchayatId,pincode, clinicName, clinicCode } = location.state || {};
   const [clickId, setClickId] = useState('');
 
   const [formData, setFormData] = useState({
@@ -59,7 +59,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   }));
 };
   const { noProgramCoordinators, noCampcordinators, noSocialWorkers, noNurses, noDoctors } = formData;
-    const requestData = {
+  const requestData = {
     campDTO: {
       name: clinicName || '',
       campIdPrefix: clinicCode || '',
@@ -73,7 +73,6 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       noNurses: noNurses,
       noProgramcordinators: noProgramCoordinators,
       noSocialworkers: noSocialWorkers,
-      dieaseList: selectedScreenings || [],
     },
     campStaffs: [],
   };

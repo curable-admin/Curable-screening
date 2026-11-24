@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
-import com.curable.domain.CampDisease;
+import com.curable.domain.CampDiseases;
 
 @Repository
-public interface CampDiseasesRepository extends JpaRepository<CampDisease, Long>, QuerydslPredicateExecutor<CampDisease> {
+public interface CampDiseasesRepository extends JpaRepository<CampDiseases, Long>, QuerydslPredicateExecutor<CampDiseases> {
 
-	List<CampDisease> findByCamp_IdAndIsRecordDeletedFalse(Long campId);
-	List<CampDisease> findByDiseaseTestMaster_IdAndIsRecordDeletedFalse(Long diseaseTestMasterId);
+	List<CampDiseases> findByCamp_IdAndIsRecordDeletedFalse(Long campId);
+	List<CampDiseases> findBySubDiseaseMaster_IdAndIsRecordDeletedFalse(Long subDiseaseMasterId);
 }

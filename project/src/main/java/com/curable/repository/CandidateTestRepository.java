@@ -13,7 +13,6 @@ import com.curable.domain.CandidateTest;
 import com.curable.service.dto.CandidateTestDTO;
 import com.curable.service.dto.custom.CommonTestParamsDTO;
 import com.curable.service.dto.custom.DiseaseEligibilityDTO;
-import com.curable.service.dto.custom.HistoryDTO;
 
 @Repository
 public interface CandidateTestRepository
@@ -23,7 +22,7 @@ public interface CandidateTestRepository
 
 	List<CandidateTest> findByDiseaseTestMaster_IdAndIsRecordDeletedFalse(Long diseaseTestMasterId);
 
-	@Query("select  new com.curable.service.dto.custom.DiseaseEligibilityDTO(a.candidate.id,concat(b.description,' . ',c.name),b.name,b.id,a.id) from CandidateTest a left join a.diseaseTestMaster b left join b.diseaseMaster c "
+	@Query("select  new com.curable.service.dto.custom.DiseaseEligibilityDTO(a.candidate.id,b.description,b.name,b.id,a.id) from CandidateTest a left join a.diseaseTestMaster b  "
 			+ " where a.candidate.id in :ids and b.name=:name and a.completed=0 ")
 	List<DiseaseEligibilityDTO> getEligibleTestScreeningOrClinic(List<Long> ids, String name);
 
@@ -76,10 +75,5 @@ public interface CandidateTestRepository
 	@Query("select  new com.curable.service.dto.custom.DiseaseEligibilityDTO(a.candidate.id,b.description,b.name,b.id,a.id,a.candidateRevisit.id) from CandidateTest a left join a.diseaseTestMaster b  "
 			+ " where a.candidate.id in :ids and a.completed=1 ")
 	List<DiseaseEligibilityDTO> completedScreeningOrClinic(List<Long> ids);
-
-	@Query("select new com.curable.service.dto.custom.HistoryDTO(a.id, a.createdDate, b.stage, a.referral, a.completed) "
-			+ "from CandidateTest a left join a.diseaseTestMaster b "
-			+ "where a.candidate.id = :candidateId and a.isRecordDeleted = false order by a.createdDate asc")
-	List<HistoryDTO> getCandidateHistoryByCandidateId(Long candidateId);
 
 }

@@ -10,8 +10,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { canAll, can, Privilege } from '../../store/userSlice';
 import Loader from "../common/Loader";
-import PatientHistorySheet from "../PatientHistorySheet";
-import { useDoubleTap } from "../../hooks/useDoubleTap";
 
 
 interface Patient {
@@ -21,7 +19,6 @@ interface Patient {
   age: number;
   gender: string;
   mobileNo: string;
-  createdDate: string,
 lastVistCompletedDate: number | string | null;
   eligibleDiseases: {
     candidateId: number;
@@ -39,8 +36,6 @@ const PatientSearchPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupPatient, setPopupPatient] = useState<Patient | null>(null);
   const [stageList, setStageList] = useState<string[]>([]);
   const [selectedStage, setSelectedStage] = useState<string | null>(null);
   const [searchSubmitted, setSearchSubmitted] = useState(false);
@@ -116,7 +111,6 @@ const handleSearch = async (value?: string) => {
           age: patient.age,
           gender: patient.gender,
           mobileNo: patient.mobileNo,
-          createdDate: patient.createdDate,
           eligibleDiseases: patient.eligibleDiseases,
           lastVistCompletedDate: patient.lastVistCompletedDate,
         }));
@@ -239,11 +233,6 @@ const formatDate = (dateValue: string | number | null) => {
   });
 };
 
-  const handleTouchEnd = useDoubleTap((patient: Patient) => {
-    setPopupPatient(patient);
-    setShowPopup(true);
-  });
-
   const handleNext = () => {
     if (!selectedStage) {
       setError("Please select a stage before proceeding.");
@@ -354,24 +343,13 @@ navigate("/DiseaseSpecificDetailsScreening", {
             <label className="select-label">Select Patient</label>
             <div>
               {pagedPatients.map((patient) => (
-              <div
-                key={patient.id}
-                className={`patient-item ${
-                  selectedPatient?.id === patient.id ? "selected" : ""
-                }`}
-                onClick={() => {
-                  handlePatientClick(patient);
-                  handleTouchEnd(patient);
-                }}
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handlePatientClick(patient);
-                    setPopupPatient(patient);
-                    setShowPopup(true);
-                  }
-                }}
-              >
+                <div
+                  key={patient.id}
+                  className={`patient-item ${
+                    selectedPatient?.id === patient.id ? "selected" : ""
+                  }`}
+                  onClick={() => handlePatientClick(patient)}
+                >
                   <div className="patient-box">
                     <div>
                       <strong>Name:</strong> {patient.name}
@@ -475,12 +453,6 @@ navigate("/DiseaseSpecificDetailsScreening", {
         </>
       )}
       {/* {patients.length === 0 && !loading && <p>No patients found.</p>} */}
-      {/* Half-popup (bottom sheet) showing the patient journey instead of navigating to PatientView */}
-      <PatientHistorySheet
-        patient={popupPatient}
-        open={showPopup}
-        onClose={() => setShowPopup(false)}
-      />
       <footer className="footer-container-fixed">
         <div className="footer-content">
           <p className="footer-text">Powered By</p>

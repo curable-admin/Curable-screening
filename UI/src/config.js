@@ -6,8 +6,7 @@ const runtimeConfig = (typeof window !== 'undefined' && window.__RUNTIME_CONFIG_
 
 const config = {
     appURL: runtimeConfig.REACT_APP_API_BASE_BASE_URL || process.env.REACT_APP_API_BASE_BASE_URL,
-    gatewayURL: runtimeConfig.REACT_APP_API_BASE_GATEWAY_URL || process.env.REACT_APP_API_BASE_GATEWAY_URL,
-    version: runtimeConfig.VERSON || runtimeConfig.VERSION || process.env.REACT_APP_VERSION
+    gatewayURL: runtimeConfig.REACT_APP_API_BASE_GATEWAY_URL || process.env.REACT_APP_API_BASE_GATEWAY_URL
 };
 
 export default config;

@@ -9,7 +9,7 @@ public class CampDiseasesDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Long campId;
-	private Long diseaseTestMasterId;
+	private Long subDiseaseMasterId;
 
 	public Long getId() {
 		return id;
@@ -27,19 +27,19 @@ public class CampDiseasesDTO implements Serializable {
 		this.campId = campId;
 	}
 
-	public Long getDiseaseTestMasterId() {
-		return diseaseTestMasterId;
+	public Long getSubDiseaseMasterId() {
+		return subDiseaseMasterId;
 	}
 
-	public void setDiseaseTestMasterId(Long diseaseTestMasterId) {
-		this.diseaseTestMasterId = diseaseTestMasterId;
+	public void setSubDiseaseMasterId(Long subDiseaseMasterId) {
+		this.subDiseaseMasterId = subDiseaseMasterId;
 	}
 
 	public String toString() {
 		return "CampDiseasesDTO [" +
 		"id=" + id +
 		"campId=" + campId +
-		"diseaseTestMasterId=" + diseaseTestMasterId +
+		"subDiseaseMasterId=" + subDiseaseMasterId +
 		"]";
 	}
 }

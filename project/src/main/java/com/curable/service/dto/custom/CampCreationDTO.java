@@ -8,8 +8,6 @@ import com.curable.service.dto.CampStaffDTO;
 public class CampCreationDTO {
 	public CampDTO campDTO;
 	public List<CampStaffDTO> campStaffs;
-	public List<Long> dieaseList;
-
 
 	public CampDTO getCampDTO() {
 		return campDTO;
@@ -25,14 +23,6 @@ public class CampCreationDTO {
 
 	public void setCampStaffs(List<CampStaffDTO> campStaffs) {
 		this.campStaffs = campStaffs;
-	}
-
-	public List<Long> getDieaseList() {
-		return dieaseList;
-	}
-
-	public void setDieaseList(List<Long> dieaseList) {
-		this.dieaseList = dieaseList;
 	}
 
 }

@@ -3,7 +3,6 @@ package com.curable.service;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,6 @@ import com.curable.service.dto.CandidateDTO;
 import com.curable.service.dto.CandidateHistoryDTO;
 import com.curable.service.dto.custom.CandidateSearchCustomDTO;
 import com.curable.service.dto.custom.CommonTestParamsDTO;
-import com.curable.service.dto.custom.HistoryDTO;
 import com.curable.service.dto.custom.TestParam;
 import com.curable.service.mapper.CandidateHabitMapper;
 import com.curable.service.mapper.CandidateHistoryMapper;
@@ -373,12 +371,6 @@ public class CandidateHistoryService {
 		// log.debug("Request to get CandidateHistory : {}", candidateId);
 		return candidateHistoryRepository.findByCandidate_IdAndIsRecordDeletedFalse(candidateId).stream()
 				.map(candidateHistoryMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
-	}
-
-	public List<HistoryDTO> getHistoryByCandidateId(Long candidateId) {
-		List<HistoryDTO> history = testRepository.getCandidateHistoryByCandidateId(candidateId);
-		history.sort(Comparator.comparing(HistoryDTO::getCreatedDate, Comparator.nullsLast(Comparator.naturalOrder())));
-		return history;
 	}
 
 	public void delete(Long id) {
