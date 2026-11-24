@@ -59,7 +59,7 @@ const PatientView: React.FC = () => {
   // Handles the dynamic stage button click based on currentStage from the API.
   // - "Go to screening" -> Screening page with registrationId as search text
   // - "Go to clinical"  -> Clinical page with registrationId as search text
-  // - "Go to patients"  -> behaves like the Back button
+  // - "Go to patient"   -> behaves like the Back button
   const handleStageButtonClick = () => {
     const stage = (currentStage || '').trim().toLowerCase();
 
@@ -81,8 +81,8 @@ const PatientView: React.FC = () => {
           enrolled,
         },
       });
-    } else if (stage === 'go to patients') {
-      // Back button functionality
+    } else if (stage === 'go to patient' || stage === 'go to patients') {
+      // Back button functionality (supports both singular and plural)
       navigate('/PatientEdit', {
         state: { searchName: searchNameFromBox, searchflow, enrolled, registrationId },
       });
