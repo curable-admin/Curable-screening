@@ -52,7 +52,15 @@ const PatientHistorySheet: React.FC<PatientHistorySheetProps> = ({
           );
           const rd: any = res.data;
           if (!cancelled) {
-            setHistory(Array.isArray(rd) ? rd : rd?.data || []);
+            // New response shape: { historyDTOS: [...], currentStage: "..." }
+            // Fallbacks kept for backward compatibility (array or { data: [...] })
+            if (Array.isArray(rd)) {
+              setHistory(rd);
+            } else if (Array.isArray(rd?.historyDTOS)) {
+              setHistory(rd.historyDTOS);
+            } else {
+              setHistory(rd?.data || []);
+            }
           }
         }
       } catch (e) {

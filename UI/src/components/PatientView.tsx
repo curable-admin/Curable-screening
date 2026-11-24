@@ -17,6 +17,7 @@ const PatientView: React.FC = () => {
 
   const [history, setHistory] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [currentStage, setCurrentStage] = useState<string>('');
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -29,7 +30,17 @@ const PatientView: React.FC = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         const rd: any = res.data;
-        setHistory(Array.isArray(rd) ? rd : (rd?.data || []));
+        // New response shape: { historyDTOS: [...], currentStage: "..." }
+        // Fallbacks kept for backward compatibility (array or { data: [...] })
+        if (Array.isArray(rd)) {
+          setHistory(rd);
+        } else if (Array.isArray(rd?.historyDTOS)) {
+          setHistory(rd.historyDTOS);
+          setCurrentStage(rd?.currentStage || '');
+        } else {
+          setHistory(rd?.data || []);
+          setCurrentStage(rd?.currentStage || '');
+        }
       } catch (e) {
         console.error('Error fetching candidate history:', e);
       } finally {
@@ -45,10 +56,44 @@ const PatientView: React.FC = () => {
   const registrationId = candidate?.registrationId || candidate.registraionId || '';
   const createdDate = candidate?.createdDate || (history.length ? history[0]?.createdDate : '');
 
+  // Handles the dynamic stage button click based on currentStage from the API.
+  // - "Go to screening" -> Screening page with registrationId as search text
+  // - "Go to clinical"  -> Clinical page with registrationId as search text
+  // - "Go to patients"  -> behaves like the Back button
+  const handleStageButtonClick = () => {
+    const stage = (currentStage || '').trim().toLowerCase();
+
+    if (stage === 'go to screening') {
+      navigate('/PatientSearchPage', {
+        state: {
+          searchName: registrationId,
+          registrationId,
+          searchflow,
+          enrolled,
+        },
+      });
+    } else if (stage === 'go to clinical') {
+      navigate('/ClinicSearchPage', {
+        state: {
+          searchName: registrationId,
+          registrationId,
+          searchflow,
+          enrolled,
+        },
+      });
+    } else if (stage === 'go to patients') {
+      // Back button functionality
+      navigate('/PatientEdit', {
+        state: { searchName: searchNameFromBox, searchflow, enrolled, registrationId },
+      });
+    }
+  };
+
   return (
     <div className="container21">
       <Header1 />
       {loading && <Loader isLoading={loading} />}
+      <div className="pv-scroll-area">
       <div className="participant-container">
         <p className="participant-info-text"><strong>Participant: </strong> {name} {age}/{gender}</p>
         <p className="participant-info-text"><strong>ID:</strong> {registrationId}</p>
@@ -85,9 +130,10 @@ const PatientView: React.FC = () => {
           </div>
         ))}
       </div>
+      </div>
       <div className="pv-buttons">
         <button className="pv-btn pv-edit" style={{ fontSize: '16px', fontWeight: '600' }} onClick={() => navigate('/PatientEdit', { state: { searchName: searchNameFromBox, searchflow, enrolled, registrationId: registrationId } })}>Back</button>
-        <button className="pv-btn pv-start" style={{ fontSize: '16px', fontWeight: '700' }}>Start screening</button>
+        <button className="pv-btn pv-start" style={{ fontSize: '16px', fontWeight: '700' }} onClick={handleStageButtonClick}>{currentStage || 'Start screening'}</button>
       </div>
       <footer className="footer-container-fixed">
         <div className="footer-content">

@@ -310,6 +310,54 @@
 
 /* Mobile phones: compact timeline, full-width sheet, stacked date row. */
 @media only screen and (max-width: 600px) {
+  /* ── App-shell layout so nothing overlaps and everything is reachable ──
+     - container fills the dynamic viewport height and lays out as a column
+     - only .pv-scroll-area scrolls (participant card + heading + timeline)
+     - action buttons and footer stay pinned in normal flow below it
+     - footer is taken out of position:fixed on mobile so it can't overlap. */
+  .container21 {
+    display: flex;
+    flex-direction: column;
+    /* 100dvh tracks the real mobile viewport (accounts for browser chrome);
+       100vh is kept as a fallback for older browsers. */
+    height: 100vh;
+    height: 100dvh;
+    /* Reset the desktop bottom padding reserved for the fixed footer. */
+    padding: 12px 12px 0;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  /* The only scrollable region on mobile. */
+  .pv-scroll-area {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Action buttons: fixed (non-shrinking) row, always visible, never clipped. */
+  .pv-buttons {
+    flex: 0 0 auto;
+    /* Respect the iPhone home-indicator safe area at the bottom. */
+    padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+    background: #fff;
+  }
+
+  /* Footer becomes a normal flow item below the buttons (no overlap).
+     Uses a more specific selector (.container21 ...) so it overrides the
+     base .footer-container-fixed { position: fixed } rule regardless of
+     source order. */
+  .container21 .footer-container-fixed {
+    position: static;
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+    background-color: #fff;
+  }
+
   .pv-timeline {
     padding-left: 20px;
   }
@@ -339,17 +387,26 @@
     row-gap: 6px;
   }
 
-  /* Buttons span the full width edge-to-edge (start to end) like web. */
+  /* Buttons span the full width edge-to-edge (start to end) like web.
+     nowrap keeps Back and the stage button on the same row even when the
+     stage label is long (e.g. "Go to screening"), preventing wrap/misalign.
+     (flex/padding/background are set in the app-shell block above; only the
+     row-specific rules are repeated here.) */
   .pv-buttons {
     flex-direction: row;
+    flex-wrap: nowrap;
     gap: 10px;
-    padding: 0 0 16px;
   }
   .pv-btn {
     flex: 1 1 0;
     width: auto;
     max-width: none;
     height: 44px;
+    /* Let long labels shrink instead of forcing a wrap. */
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* Bottom sheet fills the width on phones. */
