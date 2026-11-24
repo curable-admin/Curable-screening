@@ -12,6 +12,7 @@ public class HistoryDTO {
 	private String referral;
 	private String status;
 	private Integer sequence;
+	private String name;
 
 	@JsonIgnore
 	private Instant createdDate;
@@ -20,7 +21,7 @@ public class HistoryDTO {
 		super();
 	}
 
-	public HistoryDTO(Long id, Instant createdDate, String title, Boolean referral, int completed) {
+	public HistoryDTO(Long id, Instant createdDate, String title, Boolean referral, int completed, String name) {
 		super();
 		this.id = id;
 		this.createdDate = createdDate;
@@ -28,6 +29,7 @@ public class HistoryDTO {
 		this.title = title;
 		this.referral = referral == null ? null : (referral ? "Yes" : "No");
 		this.status = completed == 1 ? "Completed" : "Pending";
+		this.name = name;
 	}
 
 	public HistoryDTO(Long id, String date, String title, String referral, String status, Integer sequence) {
@@ -88,6 +90,14 @@ public class HistoryDTO {
 		this.sequence = sequence;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public Instant getCreatedDate() {
 		return createdDate;
 	}
@@ -99,7 +109,7 @@ public class HistoryDTO {
 	@Override
 	public String toString() {
 		return "HistoryDTO [id=" + id + ", date=" + date + ", title=" + title + ", referral=" + referral + ", status="
-				+ status + ", sequence=" + sequence + "]";
+				+ status + ", sequence=" + sequence + ", name=" + name + "]";
 	}
 
 }

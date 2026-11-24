@@ -77,7 +77,7 @@ public interface CandidateTestRepository
 			+ " where a.candidate.id in :ids and a.completed=1 ")
 	List<DiseaseEligibilityDTO> completedScreeningOrClinic(List<Long> ids);
 
-	@Query("select new com.curable.service.dto.custom.HistoryDTO(a.id, a.createdDate, b.stage, a.referral, a.completed) "
+	@Query("select  new com.curable.service.dto.custom.HistoryDTO(a.id, a.createdDate, b.description, a.referral, a.completed, b.name) "
 			+ "from CandidateTest a left join a.diseaseTestMaster b "
 			+ "where a.candidate.id = :candidateId and a.isRecordDeleted = false order by a.createdDate asc")
 	List<HistoryDTO> getCandidateHistoryByCandidateId(Long candidateId);

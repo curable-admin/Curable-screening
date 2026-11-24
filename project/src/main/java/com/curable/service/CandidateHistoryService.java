@@ -37,6 +37,7 @@ import com.curable.service.dto.CandidateHistoryDTO;
 import com.curable.service.dto.custom.CandidateSearchCustomDTO;
 import com.curable.service.dto.custom.CommonTestParamsDTO;
 import com.curable.service.dto.custom.HistoryDTO;
+import com.curable.service.dto.custom.HistoryResponseDTO;
 import com.curable.service.dto.custom.TestParam;
 import com.curable.service.mapper.CandidateHabitMapper;
 import com.curable.service.mapper.CandidateHistoryMapper;
@@ -375,10 +376,39 @@ public class CandidateHistoryService {
 				.map(candidateHistoryMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
 	}
 
-	public List<HistoryDTO> getHistoryByCandidateId(Long candidateId) {
+	public HistoryResponseDTO getHistoryByCandidateId(Long candidateId) {
 		List<HistoryDTO> history = testRepository.getCandidateHistoryByCandidateId(candidateId);
 		history.sort(Comparator.comparing(HistoryDTO::getCreatedDate, Comparator.nullsLast(Comparator.naturalOrder())));
-		return history;
+
+		String currentStage = computeCurrentStage(history);
+
+		return new HistoryResponseDTO(history, currentStage);
+	}
+
+	private String computeCurrentStage(List<HistoryDTO> history) {
+		if (history == null || history.isEmpty()) {
+			return null;
+		}
+
+		boolean allCompleted = history.stream()
+				.allMatch(h -> "Completed".equalsIgnoreCase(h.getStatus()));
+		if (allCompleted) {
+			return "Go to patient";
+		}
+
+		boolean hasScreening = history.stream()
+				.anyMatch(h -> h.getName() != null && h.getName().contains("SCREENING"));
+		if (hasScreening) {
+			return "Go to screening";
+		}
+
+		boolean hasClinical = history.stream()
+				.anyMatch(h -> h.getName() != null && h.getName().contains("CLINICAL"));
+		if (hasClinical) {
+			return "Go to clinical";
+		}
+
+		return null;
 	}
 
 	public void delete(Long id) {
