@@ -250,15 +250,27 @@ localStorage.removeItem("weightval");
                 <p><strong>Spouse Name:</strong> <span>{candidate.spouseName}</span></p>
                 <p><strong>Father Name:</strong> <span>{candidate.fatherName}</span></p>
                 <p><strong>Mobile No:</strong> <span>{candidate.mobileNo}</span></p>
-                <div className="edit-button-container" style={{ display: 'flex', gap: '8px' }}>
+                <div
+                  className="edit-button-container"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '12px',
+                    marginTop: '16px',
+                    width: '100%',
+                  }}
+                >
                   <button  disabled={!allowAllThree }
                     className={`edit-button ${!allowAllThree ? 'disabled-button' : ''}`}
+                    style={{ flex: 1, width: 'auto', maxWidth: 'none', margin: 0 }}
                     onClick={() => handleViewClick(candidate.id,candidate)}
                   >
                     View
                   </button>
                   <button  disabled={!allowAllThree }
                     className={`edit-button ${!allowAllThree ? 'disabled-button' : ''}`}
+                    style={{ flex: 1, width: 'auto', maxWidth: 'none', margin: 0 }}
                     onClick={() => handleEditClick(candidate.id,candidate)}
                   >
                     Edit

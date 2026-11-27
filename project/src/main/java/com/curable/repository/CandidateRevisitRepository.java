@@ -1,5 +1,6 @@
 package com.curable.repository;
 
+import java.time.Instant;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -41,4 +42,9 @@ public interface CandidateRevisitRepository extends JpaRepository<CandidateRevis
 	@Modifying(flushAutomatically = true,clearAutomatically = true)
 	@Query("update CandidateRevisit set revisitStatus=:status,nextFollowUpDate=now() where id=:id")
 	int updateRevisist(Long id, String  status);
+
+	@Query("select distinct revisitDate from CandidateRevisit where candidate.id = :candidateId")
+	List<Instant> getRevisitCreateDateForCandidate(@Param("candidateId") Long candidateId);
+
+
 }

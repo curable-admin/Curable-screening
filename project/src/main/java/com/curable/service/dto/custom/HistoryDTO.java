@@ -21,6 +21,17 @@ public class HistoryDTO {
 		super();
 	}
 
+	public HistoryDTO(Long id, Instant createdDate,String date, String title, String referral, String completed, String name) {
+		super();
+		this.id = id;
+		this.createdDate = createdDate;
+		this.date = date;
+		this.title = title;
+		this.referral = referral;
+		this.status = completed;
+		this.name = name;
+	}
+
 	public HistoryDTO(Long id, Instant createdDate, String title, Boolean referral, int completed, String name) {
 		super();
 		this.id = id;

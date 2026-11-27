@@ -121,7 +121,7 @@ public class CandidateHistoryService {
 			List<String> targetTests = Arrays.asList("Oral Examination", "Cervical Screening", "Breast Examination",
 					"Symptoms Based Referral", "Is patient willing for Breast  Screening",
 					"Is patient willing for Cervical Screening", "Is patient willing for Prostate Screening");
-// {testName: "Breast Examination", subtestName: "NONE", selectedValues: ["No"]}
+			// {testName: "Breast Examination", subtestName: "NONE", selectedValues: ["No"]}
 
 			if (candidateHistoryDTO.getTestMetrics().getParams() == null
 					|| candidateHistoryDTO.getTestMetrics().getParams().isEmpty()) {
@@ -378,6 +378,13 @@ public class CandidateHistoryService {
 
 	public HistoryResponseDTO getHistoryByCandidateId(Long candidateId) {
 		List<HistoryDTO> history = testRepository.getCandidateHistoryByCandidateId(candidateId);
+		List<Instant> revisitDates = candidateRevisitRepository.getRevisitCreateDateForCandidate(candidateId);
+		if (revisitDates != null && !revisitDates.isEmpty()) {
+			revisitDates.forEach(date -> {
+				history.add(new HistoryDTO(null, date, CommonUtil.getDateYYYYMMDD(date), "Revisit created", null,
+						"Completed", "Revisit created"));
+			});
+		}
 		history.sort(Comparator.comparing(HistoryDTO::getCreatedDate, Comparator.nullsLast(Comparator.naturalOrder())));
 
 		String currentStage = computeCurrentStage(history);
