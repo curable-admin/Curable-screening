@@ -186,8 +186,9 @@ localStorage.removeItem("heightval");
 localStorage.removeItem("weightval");
 
     navigate('/NewScreeningEnrollment', { state: { candidateId: candidateId, edit: true,
-      enrolledstatus: candidateObj?.enrolled || false, // pass enrolled status to the enrollment form 
+      enrolledstatus: candidateObj?.enrolled || false, // pass enrolled status to the enrollment form
       registrationId: candidateObj?.registrationId, registraionId: candidateObj?.registrationId ,
+      campId: candidateObj?.campId,
       searchNameFromBox,
     searchflow,
     enrolled
@@ -263,14 +264,14 @@ localStorage.removeItem("weightval");
                 >
                   <button  disabled={!allowAllThree }
                     className={`edit-button ${!allowAllThree ? 'disabled-button' : ''}`}
-                    style={{ flex: 1, width: 'auto', maxWidth: 'none', margin: 0 }}
+                    style={{ flex: '0 0 auto', width: '130px', maxWidth: '130px', margin: 0 }}
                     onClick={() => handleViewClick(candidate.id,candidate)}
                   >
                     View
                   </button>
                   <button  disabled={!allowAllThree }
                     className={`edit-button ${!allowAllThree ? 'disabled-button' : ''}`}
-                    style={{ flex: 1, width: 'auto', maxWidth: 'none', margin: 0 }}
+                    style={{ flex: '0 0 auto', width: '130px', maxWidth: '130px', margin: 0 }}
                     onClick={() => handleEditClick(candidate.id,candidate)}
                   >
                     Edit

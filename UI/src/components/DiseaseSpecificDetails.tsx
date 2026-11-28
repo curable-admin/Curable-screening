@@ -3,11 +3,10 @@ import Header1 from './Header1';
 import './HomePage.css';
 import axios from 'axios';
 import { useNavigate, useLocation } from "react-router-dom";
-import config from '../config'; 
+import config from '../config';
 import './NewScreeningEnrollment.css';
 import './Common.css';
 import NoDataModal from './common/NoDataModal';
-import Loader from "../components/common/Loader";
 
 
 interface FamilyMetricsParam {
@@ -209,16 +208,19 @@ const registrationId = location.state?.registrationId || "";
     navigate('/responsive-cancer-institute');
   };
   return (
-    <div className="container21">
+    <div className="container2">
       <Header1 />
-             <Loader isLoading={loading} />
 
       <div className="participant-container">
-      <p className="participant-info-text"><strong>Participant: </strong> {participantValue}</p>
-      <p className="participant-info-text"><strong>ID:</strong> {registraionId}</p>
-      
+        <p className="participant-info-text">
+          <strong>Participant: </strong> {participantValue}
+        </p>
+        <p className="participant-info-text">
+          <strong>ID:</strong> {registraionId}
+        </p>
       </div>
-      <h1 style={{ color: 'darkblue' }}>Disease Specific Details</h1>
+
+      <h1 style={{ color: 'darkblue', fontWeight: 'bold' }}>Disease Specific Details</h1>
       {error && <div className="error-message">{error}</div>}
       <NoDataModal show={showNoDataModal} onOk={handleNoDataOk} />
       {validationError && <div className="validation-error" style={{ color: 'red' }}>{validationError}</div>}

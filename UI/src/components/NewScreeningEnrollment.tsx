@@ -169,6 +169,10 @@ useEffect(() => {
           }
         }
         if (data.registraionId) setRegistraionId(data.registraionId);
+        // persist campId from prefill response so it is available for createRevisit API
+        if (data.campId != null) {
+          localStorage.setItem('campId', String(data.campId));
+        }
       } catch (err: any) {
         if (err?.response?.status && err.response.status !== 200) {
           alert('Failed to fetch prefill data. Please try again.');
@@ -293,7 +297,7 @@ console.log(payload,"payload")
   e.preventDefault();
 
   const token = localStorage.getItem('token');
-  const campId = localStorage.getItem('campId');
+  const campId = localStorage.getItem('campId') || location.state?.campId;
   const hospitalId = localStorage.getItem('hospitalId');
   const patientId = localStorage.getItem('patientId');
 
